@@ -476,7 +476,7 @@ jsonParser.parse(); // Same structure, different parsing logic
 **Ask These Questions:**
 
 1. **Need to undo operations?** → **Command Pattern**
-2. **Need to save/restore state?** → **Memento Pattern**
+2. **Need to save/restore state?** → **Memento Pattern**  
 3. **Multiple objects need notifications?** → **Observer Pattern**
 4. **Multiple algorithms for same task?** → **Strategy Pattern**
 5. **Common algorithm with variations?** → **Template Method Pattern**
