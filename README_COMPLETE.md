@@ -1,6 +1,6 @@
 # Design Patterns Implementation in Java
 
-This project demonstrates the implementation of **5 fundamental design patterns** in Java, showcasing both the problems they solve and their practical applications. Each pattern includes comparison implementations to highlight the benefits of using design patterns.
+This project demonstrates the implementation of **6 fundamental design patterns** in Java, showcasing both the problems they solve and their practical applications. Each pattern includes comparison implementations to highlight the benefits of using design patterns.
 
 ## 📁 Project Structure
 
@@ -10,7 +10,9 @@ src/
 ├── memento/           # Memento Pattern Implementation
 ├── observer/          # Observer Pattern Implementation  
 ├── strategy/          # Strategy Pattern Implementation
-└── template/          # Template Method Pattern Implementation
+├── template/          # Template Method Pattern Implementation
+├── iterator/          # Iterator Pattern Implementation
+└── ...                # Other supporting classes
 ```
 
 ## 🔍 **What Are Design Patterns?**
@@ -462,142 +464,121 @@ jsonParser.parse(); // Same structure, different parsing logic
 
 ---
 
-## 🏗️ **Pattern Relationships & Combinations**
+### 6. Iterator Pattern 🔍
 
-| Pattern Combination | Use Case | Example |
-|-------------------|----------|---------|
-| **Command + Memento** | Undo/Redo with state restoration | Advanced text editors |
-| **Observer + Strategy** | Dynamic algorithm notification | Real-time trading systems |
-| **Template Method + Strategy** | Pluggable algorithm frameworks | Data processing pipelines |
-| **Command + Observer** | Event-driven command execution | GUI event handling |
+**Location:** `src/iterator/`
 
-## 🎯 **Choosing the Right Pattern**
+**Core Purpose:** Provides a way to access the elements of an aggregate object sequentially without exposing its underlying representation.
 
-**Ask These Questions:**
-
-1. **Need to undo operations?** → **Command Pattern**
-2. **Need to save/restore state?** → **Memento Pattern**  
-3. **Multiple objects need notifications?** → **Observer Pattern**
-4. **Multiple algorithms for same task?** → **Strategy Pattern**
-5. **Common algorithm with variations?** → **Template Method Pattern**
-
-## 🚀 **Real-World Industry Applications**
-
-#### **Enterprise Applications:**
-- **Banking Systems:** Command (transactions), Memento (rollback), Observer (account notifications)
-- **E-commerce:** Strategy (payment methods), Observer (inventory updates), Template Method (order processing)
-- **Content Management:** Command (content operations), Memento (version control), Template Method (publishing workflow)
-
-#### **Game Development:**
-- **Game Engines:** Command (input handling), Memento (save states), Observer (event systems)
-- **Mobile Games:** Strategy (difficulty levels), Template Method (game loops)
-
-#### **Web Development:**
-- **Frameworks:** Template Method (request lifecycle), Observer (event listeners), Strategy (routing)
-- **Frontend:** Observer (reactive programming), Command (user actions)
-
-## 🚀 How to Run
-
-### Prerequisites
-- Java 8 or higher
-- IDE (IntelliJ IDEA, Eclipse, VS Code)
-
-### Running Examples
-
-Each pattern has its own main class for demonstration:
-
-```bash
-# Command Pattern
-java command.WithCommondPattern
-
-# Memento Pattern
-java memento.texteditor.TextEditorMain
-java memento.graphiceditor.GraphicEditorMain
-java memento.tnxrollback.Solution
-
-# Observer Pattern
-java observer.weather.ObserverPatternExample
-
-# Strategy Pattern
-java strategy.payment.StrategyPattern
-
-# Template Method Pattern
-java template.WithTemplatePattern
-```
-
-#### Interactive Examples:
-
-**Graphic Editor Memento Demo:**
-```bash
-java memento.graphiceditor.GraphicEditorMain
-# Input format: shapeType x y color size
-# Example inputs:
-# circle 10 20 red 5
-# rectangle 30 40 blue 10  
-# triangle 50 60 green 15
-# The program will undo the last shape and show the restored state
-```
-
-## 🔍 Pattern Comparison
-
-Each pattern includes "WithoutPattern" examples showing:
-- **Problems** without using the pattern
-- **Code duplication** and tight coupling issues
-- **Maintenance difficulties** in traditional approaches
-
-## 🛠️ Key Benefits of Design Patterns
-
-1. **Reusability:** Proven solutions to common problems
-2. **Maintainability:** Easier to modify and extend code
-3. **Communication:** Common vocabulary for developers
-4. **Best Practices:** Industry-standard approaches
-5. **Flexibility:** Adaptable to changing requirements
-
-## 📚 Learning Path
-
-1. **Start with Strategy Pattern** - Easiest to understand
-2. **Move to Observer Pattern** - Common in GUI applications
-3. **Learn Command Pattern** - Powerful for undo/redo systems
-4. **Study Template Method** - Great for framework design
-5. **Master Memento Pattern** - Essential for state management
-
-## 🎓 When to Use Each Pattern
-
-| Pattern | Use When | Avoid When |
-|---------|----------|------------|
-| **Command** | Need undo/redo, queuing, logging | Simple direct method calls suffice |
-| **Memento** | Need state restoration, checkpoints | Memory constraints, simple state |
-| **Observer** | One-to-many notifications needed | Few observers, tight coupling acceptable |
-| **Strategy** | Multiple algorithms for same task | Only one algorithm, no runtime switching |
-| **Template Method** | Common algorithm structure with variations | Completely different algorithms |
-
-## 🔧 Extension Ideas
-
-- Add **Undo functionality** to Command Pattern
-- Implement **Composite Pattern** for hierarchical structures
-- Add **Factory Pattern** for object creation
-- Implement **Decorator Pattern** for feature enhancement
-- Create **Facade Pattern** for simplified interfaces
-
-## 📖 Additional Resources
-
-- [Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns) - Gang of Four
-- [Head First Design Patterns](https://www.oreilly.com/library/view/head-first-design/0596007124/)
-- [Refactoring Guru - Design Patterns](https://refactoring.guru/design-patterns)
-
-### 📊 UML Relationship Legend
+#### UML Class Diagram
 
 ```
-Relationships:
-─────▶  Association (uses)
-◆─────▶ Composition (has-a, strong)
-◇─────▶ Aggregation (has-a, weak)  
-─────△  Inheritance (is-a)
-- - -△  Implementation (realizes)
+┌─────────────────────┐
+│   <<interface>>     │
+│      Iterator<T>    │
+├─────────────────────┤
+│ + hasNext(): boolean│
+│ + next(): T         │
+└─────────────────────┘
+         △
+         │
+    ┌────┴────┐
+    │         │
+┌───▽─────────────────┐    ┌──────────────┐
+│   BookIterator      │    │     Book     │
+├─────────────────────┤    ├──────────────┤
+│ - books: List<Book> │◆──▷│ - title: String│
+│ - position: int     │    │ + getTitle() │
+├─────────────────────┤    │ + toString() │
+│ + hasNext(): boolean│    └──────────────┘
+│ + next(): Book      │
+└─────────────────────┘
+         △
+         │
+┌────────┴─────────────┐
+│  BookCollectionV2    │
+├──────────────────────┤
+│ - books: List<Book>  │
+├──────────────────────┤
+│ + addBook(Book)      │
+│ + getBooks()         │
+│ + createIterator()   │
+└──────────────────────┘
+```
+
+#### Key Components:
+- **Iterator Interface:** `Iterator<T>` - Defines iteration methods (hasNext(), next())
+- **Concrete Iterator:** `BookIterator` - Implements iteration over book collection
+- **Aggregate:** `BookCollectionV2` - Manages book collection and provides iterator
+- **Element:** `Book` - Individual items in the collection
+
+#### Key Benefits:
+- **Encapsulation:** Internal collection structure remains hidden from clients
+- **Uniform Interface:** Same iteration interface for different collection types
+- **Flexibility:** Multiple iterators can traverse the same collection simultaneously
+- **Decoupling:** Iterator logic is separate from collection implementation
+- **Safety:** Prevents direct manipulation of collection internals
+
+#### Real-World Use Cases:
+- **Database Query Results:** Iterate over large result sets without loading all data
+- **File System Navigation:** Traverse directories and files
+- **Social Media Feeds:** Iterate over posts, comments, and user content
+- **Game Development:** Iterate over game objects, inventory items, player lists
+- **Data Processing:** Process large datasets element by element
+- **Web Scraping:** Iterate over web pages and extracted data
+
+#### When to Use:
+- ✅ Need to traverse a collection without exposing its internal structure
+- ✅ Want to provide multiple ways to traverse the same collection
+- ✅ Need to iterate over complex data structures
+- ✅ Want to decouple iteration logic from collection implementation
+- ✅ Working with large collections where memory efficiency matters
+
+#### Avoid When:
+- ❌ Collection is simple and direct access is sufficient
+- ❌ Only need to access specific elements (not sequential access)
+- ❌ Performance overhead of iterator pattern is not acceptable
+- ❌ Collection structure is unlikely to change
+
+#### Example Usage:
+```java
+// Create book collection
+BookCollectionV2 bookCollection = new BookCollectionV2();
+bookCollection.addBook(new Book("Java Design Patterns"));
+bookCollection.addBook(new Book("Clean Code"));
+bookCollection.addBook(new Book("Effective Java"));
+
+// Iterate using custom iterator
+Iterator<Book> iterator = bookCollection.createIterator();
+while (iterator.hasNext()) {
+    Book book = iterator.next();
+    System.out.println("Reading: " + book.getTitle());
+}
+
+// Benefits: Client doesn't know about internal List structure
+// If BookCollectionV2 changes from List to Array, client code remains unchanged
+```
+
+#### Comparison: With vs Without Iterator Pattern
+
+**Without Iterator Pattern (BookCollection):**
+```java
+BookCollection collection = new BookCollection();
+// Client must know internal structure (Set)
+Set<Book> books = collection.getBooks();
+for (Book book : books) {
+    System.out.println(book); // Exposes internal structure
+}
+```
+
+**With Iterator Pattern (BookCollectionV2):**
+```java
+BookCollectionV2 collection = new BookCollectionV2();
+// Client uses uniform iterator interface
+Iterator<Book> iterator = collection.createIterator();
+while (iterator.hasNext()) {
+    System.out.println(iterator.next()); // Encapsulated access
+}
 ```
 
 ---
-
-**Happy Coding! 🚀**
-
-*This project demonstrates practical implementations of design patterns that you'll encounter in real-world software development.*
