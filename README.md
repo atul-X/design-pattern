@@ -597,6 +597,108 @@ while (iterator.hasNext()) {
 - **Frameworks:** Template Method (request lifecycle), Observer (event listeners), Strategy (routing), Iterator (data pagination)
 - **Frontend:** Observer (reactive programming), Command (user actions), Iterator (component rendering)
 
+## 🚀 How to Run
+
+### Prerequisites
+- Java 8 or higher
+- IDE (IntelliJ IDEA, Eclipse, VS Code)
+
+### Running Examples
+
+Each pattern has its own main class for demonstration:
+
+```bash
+# Command Pattern
+java command.WithCommondPattern
+
+# Iterator Pattern - Notification Management System
+java iterator.notificationmanagement.NotificationApp
+
+# Memento Pattern
+java memento.texteditor.TextEditorMain
+java memento.graphiceditor.GraphicEditorMain
+java memento.tnxrollback.Solution
+
+# Observer Pattern
+java observer.weather.ObserverPatternExample
+
+# Strategy Pattern
+java strategy.payment.StrategyPattern
+
+# Template Method Pattern
+java template.WithTemplatePattern
+```
+
+#### Interactive Examples:
+
+**Iterator Pattern - Notification Management Demo:**
+```bash
+java iterator.notificationmanagement.NotificationApp
+# Input format (6 lines total for 2 iterations):
+# Iteration 1:
+#   Line 1: Email notification message
+#   Line 2: SMS notification message  
+#   Line 3: Push notification message
+# Iteration 2:
+#   Line 4: Email notification message
+#   Line 5: SMS notification message
+#   Line 6: Push notification message
+# 
+# Example input:
+# Welcome to our platform!
+# Your verification code: 123456
+# New message received
+# Account updated successfully
+# Payment confirmation: $50.00
+# Friend request from John
+```
+
+**Graphic Editor Memento Demo:**
+```bash
+java memento.graphiceditor.GraphicEditorMain
+# Input format: shapeType x y color size
+# Example inputs:
+# circle 10 20 red 5
+# rectangle 30 40 blue 10  
+# triangle 50 60 green 15
+# The program will undo the last shape and show the restored state
+```
+
+## 🔍 Pattern Comparison
+
+Each pattern includes "WithoutPattern" examples showing:
+- **Problems** without using the pattern
+- **Code duplication** and tight coupling issues
+- **Maintenance difficulties** in traditional approaches
+
+## 🛠️ Key Benefits of Design Patterns
+
+1. **Reusability:** Proven solutions to common problems
+2. **Maintainability:** Easier to modify and extend code
+3. **Communication:** Common vocabulary for developers
+4. **Best Practices:** Industry-standard approaches
+5. **Flexibility:** Adaptable to changing requirements
+
+## 📚 Learning Path
+
+1. **Start with Strategy Pattern** - Easiest to understand
+2. **Move to Observer Pattern** - Common in GUI applications
+3. **Learn Command Pattern** - Powerful for undo/redo systems
+4. **Study Template Method** - Great for framework design
+5. **Master Memento Pattern** - Essential for state management
+6. **Understand Iterator Pattern** - Fundamental for collection traversal
+
+## 🎓 When to Use Each Pattern
+
+| Pattern | Use When | Avoid When |
+|---------|----------|------------|
+| **Command** | Need undo/redo, queuing, logging | Simple direct method calls suffice |
+| **Iterator** | Need to traverse collections sequentially | Collection is simple, direct access sufficient |
+| **Memento** | Need state restoration, checkpoints | Memory constraints, simple state |
+| **Observer** | One-to-many notifications needed | Few observers, tight coupling acceptable |
+| **Strategy** | Multiple algorithms for same task | Only one algorithm, no runtime switching |
+| **Template Method** | Common algorithm structure with variations | Completely different algorithms |
+
 ## 🔧 Extension Ideas
 
 - Add **Undo functionality** to Command Pattern
@@ -606,6 +708,8 @@ while (iterator.hasNext()) {
 - Create **Facade Pattern** for simplified interfaces
 - Add **Bidirectional Iterator** to Iterator Pattern
 - Implement **External Iterator** variations
+- Add **Filtering Iterator** to Notification System
+- Implement **Priority-based Iterator** for notifications
 
 ## 📖 Additional Resources
 

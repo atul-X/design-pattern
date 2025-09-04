@@ -1,4 +1,4 @@
-package iterator;
+package iterator.book;
 
 import java.util.Iterator;
 

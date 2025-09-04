@@ -1,4 +1,4 @@
-package iterator;
+package iterator.book;
 
 public interface Iterator <T>{
 	boolean hasNext();
