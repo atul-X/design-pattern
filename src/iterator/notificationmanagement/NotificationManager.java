@@ -1,5 +1,5 @@
 package iterator.notificationmanagement;
-
+import java.util.Iterator;
 public class NotificationManager {
 
 	private NotificationCollection emailNotifications;
