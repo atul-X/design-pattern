@@ -1,0 +1,71 @@
+title: Design Patterns Interactive Showcase
+description: Interactive demonstrations of fundamental software design patterns with real-world examples
+author: Your Name
+email: your.email@example.com
+
+# GitHub Pages settings
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Site settings
+url: "https://yourusername.github.io"
+baseurl: "/design-pattern"
+repository: "yourusername/design-pattern"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+sass:
+  style: compressed
+
+# Exclude files from processing
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .sass-cache
+  - .jekyll-cache
+  - gemfiles
+  - src/
+  - *.iml
+  - .idea/
+
+# Include files
+include:
+  - _pages
+
+# Collections
+collections:
+  patterns:
+    output: true
+    permalink: /:collection/:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "patterns"
+    values:
+      layout: "pattern"
+
+# Social links
+github_username: yourusername
+linkedin_username: yourusername
+twitter_username: yourusername
+
+# Analytics (optional)
+google_analytics: UA-XXXXXXXXX-X
+
+# SEO settings
+lang: en_US
+timezone: UTC

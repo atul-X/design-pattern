@@ -466,7 +466,7 @@ public class StockMarketExample {
 }
 ```
 
-#### 📱 **Real-World Example 2: Social Media Notification System**
+#### 📈 **Real-World Example 2: Social Media Notification System**
 
 ```java
 // Observer Interface for Social Media
@@ -871,6 +871,84 @@ This implementation demonstrates the Iterator pattern through a **real-world not
 - Java 8 or higher
 - IDE (IntelliJ IDEA, Eclipse, VS Code)
 
+### 🎯 **NEW: Interactive GUI Showcase** 
+
+**Experience design patterns through a beautiful, interactive GUI application!**
+
+#### **🚀 Quick Start - GUI Application**
+
+**For macOS/Linux:**
+```bash
+# Make the script executable (first time only)
+chmod +x run-gui.sh
+
+# Run the GUI application
+./run-gui.sh
+```
+
+**For Windows:**
+```batch
+# Double-click the file or run from command prompt
+run-gui.bat
+```
+
+**Manual Compilation (All Platforms):**
+```bash
+# Compile all Java files
+mkdir -p bin
+find src -name "*.java" -print0 | xargs -0 javac -d bin -cp src
+
+# Run the GUI application
+java -cp bin gui.DesignPatternShowcase
+```
+
+#### **🎨 GUI Features**
+
+The interactive GUI application provides:
+
+##### **🏠 Welcome Dashboard**
+- Overview of all implemented patterns
+- Pattern category explanations
+- Navigation guide
+
+##### **👑 Singleton Pattern Demo**
+- **Configuration Singleton**: Interactive AppSetting management
+  - Update database URL and API key
+  - Verify single instance behavior with hash codes
+  - Demonstrate shared state across references
+- **Logger Singleton**: Thread-safe logging system
+  - Test different log levels (INFO, WARN, ERROR)
+  - Real-time log output with timestamps
+  - Instance verification with visual feedback
+
+##### **🎮 Command Pattern Demo**
+- **Smart Home Automation System**: Full interactive control panel
+  - 💡 **Light Controls**: Turn lights on/off, dim functionality
+  - 🌡️ **Thermostat**: Slider and custom temperature controls
+  - 🔒 **Security System**: Arm/disarm with visual status
+  - ↶ **Undo Functionality**: Reverse any command
+  - 🌙 **Macro Commands**: Good Night routine (multiple commands)
+  - 📜 **Command History**: Track all executed commands with timestamps
+  - 🔄 **Real-time Status**: Live device status updates
+
+##### **👁️ Observer Pattern Demo** (Coming Soon)
+- Stock market simulation with real-time updates
+- Multiple observer types (trading bots, portfolio trackers, alerts)
+- Visual notification system
+
+##### **🔍 Iterator Pattern Demo** (Coming Soon)
+- Notification management system
+- Different collection types (ArrayList, ArrayDeque, LinkedHashSet)
+- Uniform iteration interface demonstration
+
+#### **🎯 GUI Benefits**
+
+- **Visual Learning**: See patterns in action with immediate feedback
+- **Interactive Exploration**: Click, modify, and experiment with real examples
+- **Real-time Updates**: Watch how pattern components interact
+- **Educational Explanations**: Built-in pattern explanations and benefits
+- **Professional UI**: Modern, clean interface with intuitive navigation
+
 ### Running Examples
 
 Each pattern has its own main class for demonstration:
@@ -899,493 +977,17 @@ java behavioural.template.WithTemplatePattern
 
 #### Interactive Examples:
 
-**Iterator Pattern - Notification Management Demo:**
+**🎯 GUI Application (Recommended):**
 ```bash
-java behavioural.iterator.notificationmanagement.NotificationApp
-# Interactive demo that allows you to:
-# 1. Add Email notifications (stored in ArrayList)
-# 2. Add SMS notifications (stored in ArrayDeque) 
-# 3. Add Push notifications (stored in LinkedHashSet)
-# 4. Display all notifications using uniform iterator interface
-# 5. See how different data structures are handled transparently
-# 
-# Example interaction:
-# Enter Email notification: Welcome to our platform!
-# Enter SMS notification: Your verification code: 123456  
-# Enter Push notification: New message received
-# Enter Email notification: Account updated successfully
-# Enter SMS notification: Payment confirmation: $50.00
-# Enter Push notification: Friend request from John
-# 
-# The program demonstrates:
-# - Uniform iteration across ArrayList, ArrayDeque, LinkedHashSet
-# - Encapsulation of different data structures
-# - Real-world notification management scenario
+./run-gui.sh  # macOS/Linux
+run-gui.bat   # Windows
+# Features:
+# - Interactive Singleton configuration and logging
+# - Smart home automation with Command pattern
+# - Visual device controls and command history
+# - Real-time status updates and undo functionality
+# - Pattern explanations and educational content
 ```
-
-**Graphic Editor Memento Demo:**
-```bash
-java behavioural.memento.graphiceditor.GraphicEditorMain
-# Input format: shapeType x y color size
-# Example inputs:
-# circle 10 20 red 5
-# rectangle 30 40 blue 10  
-# triangle 50 60 green 15
-# The program will undo the last shape and show the restored state
-```
-
-## 🔍 Pattern Comparison
-
-Each pattern includes "WithoutPattern" examples showing:
-- **Problems** without using the pattern
-- **Code duplication** and tight coupling issues
-- **Maintenance difficulties** in traditional approaches
-
-## 🛠️ Key Benefits of Design Patterns
-
-1. **Reusability:** Proven solutions to common problems
-2. **Maintainability:** Easier to modify and extend code
-3. **Communication:** Common vocabulary for developers
-4. **Best Practices:** Industry-standard approaches
-5. **Flexibility:** Adaptable to changing requirements
-
-## 📚 Learning Path
-
-1. **Start with Strategy Pattern** - Easiest to understand
-2. **Move to Observer Pattern** - Common in GUI applications
-3. **Learn Command Pattern** - Powerful for undo/redo systems
-4. **Study Template Method** - Great for framework design
-5. **Master Memento Pattern** - Essential for state management
-6. **Understand Iterator Pattern** - Fundamental for collection traversal
-
-## 🎓 When to Use Each Pattern
-
-| Pattern | Use When | Avoid When |
-|---------|----------|------------|
-| **Command** | Need undo/redo, queuing, logging | Simple direct method calls suffice |
-| **Iterator** | Need to traverse collections sequentially | Collection is simple, direct access sufficient |
-| **Memento** | Need state restoration, checkpoints | Memory constraints, simple state |
-| **Observer** | One-to-many notifications needed | Few observers, tight coupling acceptable |
-| **Strategy** | Multiple algorithms for same task | Only one algorithm, no runtime switching |
-| **Template Method** | Common algorithm structure with variations | Completely different algorithms |
-
-## 🔧 Extension Ideas
-
-- Add **Undo functionality** to Command Pattern
-- Implement **Composite Pattern** for hierarchical structures
-- Add **Factory Pattern** for object creation
-- Implement **Decorator Pattern** for feature enhancement
-- Create **Facade Pattern** for simplified interfaces
-- Add **Bidirectional Iterator** to Iterator Pattern
-- Implement **External Iterator** variations
-- Add **Filtering Iterator** to Notification System
-- Implement **Priority-based Iterator** for notifications
-- Create **Composite Iterator** for hierarchical notification structures
-- Add **Concurrent Iterator** for thread-safe notification processing
-
-## 📖 Additional Resources
-
-- [Design Patterns: Elements of Reusable Object-Oriented Software](https://en.wikipedia.org/wiki/Design_Patterns) - Gang of Four
-- [Head First Design Patterns](https://www.oreilly.com/library/view/head-first-design/0596007124/)
-- [Refactoring Guru - Design Patterns](https://refactoring.guru/design-patterns)
-
-### 📊 UML Relationship Legend
-
-```
-Relationships:
-─────▶  Association (uses)
-◆─────▶ Composition (has-a, strong)
-◇─────▶ Aggregation (has-a, weak)  
-─────△  Inheritance (is-a)
-- - -△  Implementation (realizes)
-```
-
----
-
-**Happy Coding! 🚀**
-
-*This project demonstrates practical implementations of fundamental behavioral design patterns that you'll encounter in real-world software development, with future expansion planned for creational design patterns.*
-
----
-
-## 🏭 **Creational Design Patterns Overview**
-
-**Creational patterns** are design patterns that deal with object creation mechanisms, trying to create objects in a manner suitable to the situation. These patterns provide flexibility in deciding which objects need to be created for a given use case and make the system independent of how its objects are created, composed, and represented.
-
-### 🎯 **Core Characteristics of Creational Patterns:**
-
-#### **1. Object Creation Control** 🎛️
-- **Instance Management:** Control how and when objects are created
-- **Resource Optimization:** Prevent unnecessary object creation
-- **Memory Management:** Efficient use of system resources
-- **Lifecycle Management:** Control object initialization and destruction
-
-#### **2. Abstraction of Instantiation** 🔒
-- **Hide Complexity:** Abstract the object creation process from clients
-- **Flexible Creation:** Allow different ways to create objects
-- **Decoupling:** Separate object creation from object usage
-- **Configuration-Driven:** Enable creation based on configuration or context
-
-#### **3. Reusability and Consistency** ♻️
-- **Consistent Creation:** Ensure objects are created in a consistent manner
-- **Code Reuse:** Reuse creation logic across different parts of the application
-- **Standardization:** Establish standard patterns for object creation
-- **Maintainability:** Centralize creation logic for easier maintenance
-
-### 🎯 **Currently Implemented: Singleton Pattern** 👑
-
----
-
-### 1. Singleton Pattern 👑
-
-**Location:** `src/creational/singleton/`
-
-**Core Purpose:** Ensures that a class has only one instance and provides a global point of access to that instance.
-
-#### Key Components:
-- **Private Constructor:** Prevents external instantiation
-- **Static Instance Variable:** Holds the single instance
-- **Static Factory Method:** Provides controlled access to the instance
-- **Thread Safety:** Ensures safe creation in multi-threaded environments
-
-#### Real-World Use Cases:
-- **Configuration Management:** Application settings, database connections
-- **Logging Systems:** Centralized logging across the application
-- **Caching:** Shared application cache, session management
-- **Hardware Interface:** Printer spoolers, device drivers
-
-#### 🏗️ **Implementation 1: Application Configuration System**
-
-```java
-package creational.singleton;
-
-/**
- * Singleton pattern for Application Configuration
- * Manages global application settings like database URL and API keys
- */
-public class AppSetting {
-    // Static instance variable (lazy initialization)
-    private static AppSetting instance;
-    
-    // Configuration properties
-    private String databaseUrl;
-    private String apiKey;
-
-    // Private constructor prevents external instantiation
-    private AppSetting() {
-        this.databaseUrl = "jdbc:mysql://localhost:3306/mydb";
-        this.apiKey = "wxxzzxzd";
-    }
-
-    // Static factory method with lazy initialization
-    public static AppSetting getInstance() {
-        if (instance == null) {
-            instance = new AppSetting();
-        }
-        return instance;
-    }
-
-    // Getter methods for configuration access
-    public String getDatabaseUrl() {
-        return databaseUrl;
-    }
-
-    public String getApiKey() {
-        return apiKey;
-    }
-
-    // Setter methods for configuration updates
-    public void setDatabaseUrl(String databaseUrl) {
-        this.databaseUrl = databaseUrl;
-    }
-
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
-    }
-}
-```
-
-#### 🔧 **Usage Example:**
-
-```java
-package creational.singleton;
-
-/**
- * Demonstrates the Singleton pattern usage
- * Shows how multiple calls to getInstance() return the same object
- */
-public class WithOutSingletonPattern {
-    public static void main(String[] args) {
-        // Get singleton instances
-        AppSetting config1 = AppSetting.getInstance();
-        AppSetting config2 = AppSetting.getInstance();
-        
-        // Display configuration values
-        System.out.println(config1.getDatabaseUrl());
-        System.out.println(config2.getDatabaseUrl());
-        
-        // Verify both references point to the same object
-        System.out.println(config1 == config2); // Output: true
-        
-        // Demonstrate shared state
-        config1.setDatabaseUrl("jdbc:postgresql://localhost:5432/newdb");
-        System.out.println("Updated URL via first reference: " + config1.getDatabaseUrl());
-        System.out.println("URL via second reference: " + config2.getDatabaseUrl());
-        // Both show the same updated value, confirming single instance
-    }
-}
-```
-
-#### 🛡️ **Implementation 2: Thread-Safe Logger System**
-
-```java
-package creational.singleton.logger;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-/**
- * Thread-safe Singleton Logger
- * Provides centralized logging functionality across the application
- * Uses synchronized method to ensure thread safety
- */
-public class Logger {
-    // Static instance variable
-    private static Logger instance;
-
-    // Private constructor to prevent instantiation
-    private Logger() {
-        // Initialize logger (could include file setup, configuration, etc.)
-    }
-
-    // Thread-safe singleton access method
-    public static synchronized Logger getInstance() {
-        if (instance == null) {
-            instance = new Logger(); // Only one thread can execute this
-        }
-        return instance;
-    }
-
-    // Logging methods for different levels
-    public void info(String message) {
-        log("INFO", message);
-    }
-
-    public void warn(String message) {
-        log("WARN", message);
-    }
-
-    public void error(String message) {
-        log("ERROR", message);
-    }
-
-    // Private method to handle actual logging
-    private void log(String level, String message) {
-        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        System.out.println(String.format("%s [%s]: %s", timestamp, level, message));
-    }
-}
-```
-
-#### 🎮 **Interactive Logger Exercise:**
-
-```java
-package creational.singleton.logger;
-
-import java.util.Scanner;
-
-/**
- * Interactive exercise demonstrating Logger singleton usage
- * Allows users to test different logging levels
- */
-public class Exercise {
-    public void run() {
-        Logger logger = Logger.getInstance();
-        Scanner sc = new Scanner(System.in);
-
-        // Get an info message from the user
-        System.out.print("Enter an info message: ");
-        String infoMessage = sc.nextLine();
-        logger.info(infoMessage);
-
-        // Get a warning message from the user
-        System.out.print("Enter a warning message: ");
-        String warnMessage = sc.nextLine();
-        logger.warn(warnMessage);
-
-        // Get an error message from the user
-        System.out.print("Enter an error message: ");
-        String errorMessage = sc.nextLine();
-        logger.error(errorMessage);
-
-        sc.close();
-    }
-
-    public static void main(String[] args) {
-        System.out.println("=== Singleton Logger Exercise ===");
-        System.out.println("This demonstrates the Singleton pattern with a logging system.");
-        System.out.println("Notice how the same Logger instance is used throughout.\n");
-        
-        Exercise exercise = new Exercise();
-        exercise.run();
-        
-        // Demonstrate that multiple calls return the same instance
-        Logger logger1 = Logger.getInstance();
-        Logger logger2 = Logger.getInstance();
-        
-        System.out.println("\n=== Singleton Verification ===");
-        System.out.println("Logger instance 1: " + logger1.hashCode());
-        System.out.println("Logger instance 2: " + logger2.hashCode());
-        System.out.println("Same instance? " + (logger1 == logger2));
-    }
-}
-```
-
-#### 🎯 **Key Benefits Demonstrated:**
-
-##### **1. Single Instance Guarantee** 🎯
-```java
-// Multiple calls always return the same instance
-AppSetting config1 = AppSetting.getInstance();
-AppSetting config2 = AppSetting.getInstance();
-System.out.println(config1 == config2); // Always true
-```
-
-##### **2. Global Access Point** 🌐
-```java
-// Access from anywhere in the application
-public class DatabaseService {
-    public void connect() {
-        String url = AppSetting.getInstance().getDatabaseUrl();
-        // Use the global configuration
-    }
-}
-
-public class ApiService {
-    public void authenticate() {
-        String key = AppSetting.getInstance().getApiKey();
-        // Use the same global configuration
-    }
-}
-```
-
-##### **3. Resource Conservation** 💾
-```java
-// Before Singleton: Multiple logger instances waste memory
-Logger logger1 = new Logger(); // Creates new instance
-Logger logger2 = new Logger(); // Creates another instance
-Logger logger3 = new Logger(); // Creates yet another instance
-
-// With Singleton: Single shared instance
-Logger logger1 = Logger.getInstance(); // Creates or returns existing
-Logger logger2 = Logger.getInstance(); // Returns same instance
-Logger logger3 = Logger.getInstance(); // Returns same instance
-```
-
-##### **4. Thread Safety** 🔒
-```java
-// Thread-safe implementation ensures proper behavior in concurrent environments
-public static synchronized Logger getInstance() {
-    if (instance == null) {
-        instance = new Logger(); // Only one thread can execute this
-    }
-    return instance;
-}
-```
-
-#### 🚀 **Real-World Applications:**
-
-##### **Enterprise Applications:**
-- **Configuration Management:** Database connections, API endpoints, feature flags
-- **Logging Systems:** Centralized logging across microservices
-- **Cache Management:** Shared application cache, session management
-- **Connection Pools:** Database connection pooling, HTTP client pools
-
-##### **Game Development:**
-- **Game State Manager:** Current level, player progress, game settings
-- **Audio Manager:** Sound effects, background music control
-- **Resource Manager:** Texture loading, asset management
-- **Save System:** Game save/load functionality
-
-##### **Web Development:**
-- **Session Management:** User session tracking across requests
-- **Configuration Service:** Application settings, environment variables
-- **Metrics Collection:** Performance monitoring, analytics tracking
-- **Security Manager:** Authentication tokens, security policies
-
-#### ⚠️ **Implementation Considerations:**
-
-##### **Thread Safety Options:**
-
-1. **Synchronized Method (Current Implementation):**
-```java
-public static synchronized Logger getInstance() {
-    if (instance == null) {
-        instance = new Logger();
-    }
-    return instance;
-}
-// Pros: Simple, thread-safe
-// Cons: Performance overhead on every call
-```
-
-2. **Double-Checked Locking:**
-```java
-public static Logger getInstance() {
-    if (instance == null) {
-        synchronized (Logger.class) {
-            if (instance == null) {
-                instance = new Logger();
-            }
-        }
-    }
-    return instance;
-}
-// Pros: Better performance, thread-safe
-// Cons: More complex, requires volatile keyword
-```
-
-3. **Eager Initialization:**
-```java
-private static final Logger instance = new Logger();
-
-public static Logger getInstance() {
-    return instance;
-}
-// Pros: Simple, thread-safe, fast access
-// Cons: Instance created even if never used
-```
-
-#### 🎯 **When to Use Singleton Pattern:**
-
-##### **✅ Use Singleton When:**
-- Only one instance should exist (database connection, configuration)
-- Global access point is needed
-- Instance creation is expensive
-- Shared state management is required
-- Resource coordination is necessary
-
-##### **❌ Avoid Singleton When:**
-- Multiple instances might be needed in the future
-- Testing becomes difficult (hard to mock)
-- Tight coupling is introduced
-- Simple dependency injection would suffice
-- State sharing creates concurrency issues
-
----
-
-{{ ... }}
-```bash
-# Singleton Pattern - Application Configuration
-java creational.singleton.WithOutSingletonPattern
-
-# Singleton Pattern - Interactive Logger Exercise
-java creational.singleton.logger.Exercise
-
-# Command Pattern
-java behavioural.command.WithCommondPattern
-{{ ... }}
-#### Interactive Examples:
 
 **Singleton Pattern - Logger Exercise:**
 ```bash

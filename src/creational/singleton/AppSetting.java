@@ -24,7 +24,15 @@ public class AppSetting {
 		return databaseUrl;
 	}
 
+	public String getApiKey() {
+		return apiKey;
+	}
+
 	public void setDatabaseUrl(String databaseUrl) {
 		this.databaseUrl = databaseUrl;
+	}
+
+	public void setApiKey(String apiKey) {
+		this.apiKey = apiKey;
 	}
 }
