@@ -8,6 +8,8 @@ This project demonstrates the implementation of **fundamental design patterns** 
 src/
 ├── behavioural/                    # Behavioral Design Patterns
 │   ├── command/                    # Command Pattern Implementation
+│   │   ├── smartHome/              # Smart Home Automation Example
+│   │   └── banking/                # Banking Transaction System Example
 │   ├── iterator/                   # Iterator Pattern Implementation
 │   │   ├── book/                   # Simple book collection example
 │   │   └── notificationmanagement/ # Comprehensive notification system
@@ -17,10 +19,13 @@ src/
 │   ├── state/                      # State Pattern Implementation
 │   ├── strategy/                   # Strategy Pattern Implementation
 │   └── template/                   # Template Method Pattern Implementation
-├── creational/                     # Creational Design Patterns (Future)
+├── creational/                     # Creational Design Patterns (Current Implementation)
+│   ├── singleton/                  # Singleton Pattern Implementation
+│   │   ├── logger/                 # Thread-safe Logger System
+│   │   ├── AppSetting.java         # Application Configuration Singleton
+│   │   └── WithOutSingletonPattern.java # Demonstrates singleton usage
 │   ├── factory/                    # Factory Pattern (Planned)
 │   ├── builder/                    # Builder Pattern (Planned)
-│   ├── singleton/                  # Singleton Pattern (Planned)
 │   ├── prototype/                  # Prototype Pattern (Planned)
 │   └── abstractfactory/            # Abstract Factory Pattern (Planned)
 └── Main.java                       # Main entry point
@@ -36,7 +41,7 @@ Design patterns are categorized into three main types based on their purpose:
 - Concerned with algorithms and assignment of responsibilities between objects
 - Help in defining the communication patterns between objects
 
-### 🏭 **Creational Patterns** (Future Implementation)
+### 🏭 **Creational Patterns** (Current Implementation)
 **Focus:** Object creation mechanisms
 - Deal with object creation in a manner suitable to the situation
 - Provide flexibility in deciding which objects need to be created for a given use case
@@ -252,54 +257,11 @@ Future patterns will demonstrate powerful combinations:
 - **Singleton + Observer:** Global event management systems
 - **Prototype + Memento:** Efficient state cloning and restoration
 
-{{ ... }}
-
 ---
 
-## 🎯 **Behavioral Design Patterns Implemented**
+### 2. Observer Pattern 👁️
 
-### 1. Command Pattern 🎮
-
-**Location:** `src/behavioural/command/`
-
-**Core Purpose:** Encapsulates a request as an object, allowing you to parameterize clients with different requests, queue operations, and support undo functionality.
-
-#### Key Components:
-- **Command Interface:** Defines the execute() method
-- **Concrete Commands:** Specific command implementations
-- **Receiver:** Performs the actual work
-- **Invoker:** Triggers command execution
-
-#### Real-World Use Cases:
-- **GUI Applications:** Button clicks, menu selections
-- **Remote Controls:** TV, AC, Smart Home devices
-- **Undo/Redo Operations:** Text editors, image editors
-- **Transaction Processing:** Banking systems, database operations
-
----
-
-### 2. Memento Pattern 💾
-
-**Location:** `src/behavioural/memento/`
-
-**Core Purpose:** Captures and externalizes an object's internal state without violating encapsulation, allowing the object to be restored to this state later.
-
-#### Three Implementations:
-- **Text Editor with Undo:** Basic undo/redo functionality
-- **Graphic Editor:** Shape manipulation with history
-- **Transaction Rollback:** Database-like operations with rollback
-
-#### Real-World Use Cases:
-- **Text Editors:** Undo/Redo functionality (MS Word, VS Code)
-- **Database Systems:** Transaction rollback, savepoints
-- **Game Development:** Save/load game states, checkpoints
-- **Version Control:** Git commits, branching
-
----
-
-### 3. Observer Pattern 👁️
-
-**Location:** `src/behavioural/observer/weather/`
+**Location:** `src/behavioural/observer/`
 
 **Core Purpose:** Defines a one-to-many dependency between objects so that when one object changes state, all dependents are notified automatically.
 
@@ -315,11 +277,448 @@ Future patterns will demonstrate powerful combinations:
 - **Stock Market:** Price change notifications
 - **Social Media:** Notification systems for followers
 
+#### 📈 **Real-World Example 1: Stock Market Trading System**
+
+```java
+// Observer Interface
+interface StockObserver {
+    void update(String stockSymbol, double price, double change);
+    String getObserverName();
+}
+
+// Subject Interface
+interface StockSubject {
+    void addObserver(StockObserver observer);
+    void removeObserver(StockObserver observer);
+    void notifyObservers();
+}
+
+// Concrete Subject - Stock
+class Stock implements StockSubject {
+    private String symbol;
+    private double price;
+    private double previousPrice;
+    private List<StockObserver> observers = new ArrayList<>();
+    
+    public Stock(String symbol, double initialPrice) {
+        this.symbol = symbol;
+        this.price = initialPrice;
+        this.previousPrice = initialPrice;
+    }
+    
+    public void setPrice(double newPrice) {
+        this.previousPrice = this.price;
+        this.price = newPrice;
+        System.out.println("📊 " + symbol + " price updated: $" + price);
+        notifyObservers();
+    }
+    
+    public void addObserver(StockObserver observer) {
+        observers.add(observer);
+        System.out.println("➕ " + observer.getObserverName() + " subscribed to " + symbol);
+    }
+    
+    public void removeObserver(StockObserver observer) {
+        observers.remove(observer);
+        System.out.println("➖ " + observer.getObserverName() + " unsubscribed from " + symbol);
+    }
+    
+    public void notifyObservers() {
+        double change = price - previousPrice;
+        for (StockObserver observer : observers) {
+            observer.update(symbol, price, change);
+        }
+    }
+    
+    public String getSymbol() { return symbol; }
+    public double getPrice() { return price; }
+}
+
+// Concrete Observers
+class TradingBot implements StockObserver {
+    private String botName;
+    private double buyThreshold;
+    private double sellThreshold;
+    
+    public TradingBot(String name, double buyThreshold, double sellThreshold) {
+        this.botName = name;
+        this.buyThreshold = buyThreshold;
+        this.sellThreshold = sellThreshold;
+    }
+    
+    public void update(String stockSymbol, double price, double change) {
+        System.out.println("🤖 " + botName + " received update: " + stockSymbol + 
+                         " = $" + price + " (change: " + String.format("%.2f", change) + ")");
+        
+        if (change <= -buyThreshold) {
+            System.out.println("🤖 " + botName + " DECISION: BUY " + stockSymbol + 
+                             " (price dropped by $" + Math.abs(change) + ")");
+        } else if (change >= sellThreshold) {
+            System.out.println("🤖 " + botName + " DECISION: SELL " + stockSymbol + 
+                             " (price increased by $" + change + ")");
+        }
+    }
+    
+    public String getObserverName() { return botName; }
+}
+
+class PortfolioTracker implements StockObserver {
+    private String portfolioName;
+    private Map<String, Integer> holdings = new HashMap<>();
+    
+    public PortfolioTracker(String name) {
+        this.portfolioName = name;
+    }
+    
+    public void addHolding(String symbol, int shares) {
+        holdings.put(symbol, shares);
+    }
+    
+    public void update(String stockSymbol, double price, double change) {
+        if (holdings.containsKey(stockSymbol)) {
+            int shares = holdings.get(stockSymbol);
+            double totalValue = shares * price;
+            double totalChange = shares * change;
+            
+            System.out.println("📊 " + portfolioName + " Portfolio Update:");
+            System.out.println("   " + stockSymbol + ": " + shares + " shares @ $" + price + 
+                             " = $" + String.format("%.2f", totalValue));
+            System.out.println("   Change: " + (change >= 0 ? "+" : "") + 
+                             String.format("%.2f", totalChange));
+        }
+    }
+    
+    public String getObserverName() { return portfolioName + " Portfolio"; }
+}
+
+class PriceAlertSystem implements StockObserver {
+    private String alertName;
+    private Map<String, Double> priceAlerts = new HashMap<>();
+    
+    public PriceAlertSystem(String name) {
+        this.alertName = name;
+    }
+    
+    public void setPriceAlert(String symbol, double targetPrice) {
+        priceAlerts.put(symbol, targetPrice);
+        System.out.println("🔔 Alert set: " + symbol + " @ $" + targetPrice);
+    }
+    
+    public void update(String stockSymbol, double price, double change) {
+        if (priceAlerts.containsKey(stockSymbol)) {
+            double targetPrice = priceAlerts.get(stockSymbol);
+            if ((change > 0 && price >= targetPrice) || (change < 0 && price <= targetPrice)) {
+                System.out.println("🚨 PRICE ALERT: " + stockSymbol + 
+                                 " reached target price $" + targetPrice + 
+                                 " (current: $" + price + ")");
+                priceAlerts.remove(stockSymbol); // Remove triggered alert
+            }
+        }
+    }
+    
+    public String getObserverName() { return alertName; }
+}
+
+// Usage Example
+public class StockMarketExample {
+    public static void main(String[] args) {
+        // Create stocks
+        Stock appleStock = new Stock("AAPL", 150.00);
+        Stock googleStock = new Stock("GOOGL", 2800.00);
+        
+        // Create observers
+        TradingBot dayTrader = new TradingBot("DayTrader Bot", 2.0, 3.0);
+        TradingBot swingTrader = new TradingBot("Swing Trader", 5.0, 8.0);
+        PortfolioTracker myPortfolio = new PortfolioTracker("John's");
+        PriceAlertSystem alertSystem = new PriceAlertSystem("Mobile App");
+        
+        // Setup portfolio
+        myPortfolio.addHolding("AAPL", 100);
+        myPortfolio.addHolding("GOOGL", 10);
+        
+        // Setup alerts
+        alertSystem.setPriceAlert("AAPL", 155.0);
+        alertSystem.setPriceAlert("GOOGL", 2750.0);
+        
+        // Subscribe observers to stocks
+        appleStock.addObserver(dayTrader);
+        appleStock.addObserver(myPortfolio);
+        appleStock.addObserver(alertSystem);
+        
+        googleStock.addObserver(swingTrader);
+        googleStock.addObserver(myPortfolio);
+        googleStock.addObserver(alertSystem);
+        
+        System.out.println("\n--- Market Updates ---");
+        
+        // Simulate price changes
+        appleStock.setPrice(152.50);  // +$2.50
+        googleStock.setPrice(2790.00); // -$10.00
+        appleStock.setPrice(156.00);   // +$3.50 (triggers alert)
+        googleStock.setPrice(2745.00); // -$45.00 (triggers alert)
+        
+        // Unsubscribe an observer
+        System.out.println("\n--- Unsubscribing DayTrader from AAPL ---");
+        appleStock.removeObserver(dayTrader);
+        
+        appleStock.setPrice(160.00);   // Only portfolio and alerts notified
+    }
+}
+```
+
+#### 📱 **Real-World Example 2: Social Media Notification System**
+
+```java
+// Observer Interface for Social Media
+interface SocialMediaObserver {
+    void onNewPost(String username, String content, String timestamp);
+    void onNewFollower(String followerName);
+    void onLike(String username, String postId);
+    String getNotificationPreference();
+}
+
+// Subject Interface
+interface SocialMediaSubject {
+    void addFollower(SocialMediaObserver follower);
+    void removeFollower(SocialMediaObserver follower);
+    void notifyNewPost(String content);
+    void notifyNewFollower(String followerName);
+    void notifyLike(String postId);
+}
+
+// Concrete Subject - User Profile
+class UserProfile implements SocialMediaSubject {
+    private String username;
+    private List<SocialMediaObserver> followers = new ArrayList<>();
+    private List<String> posts = new ArrayList<>();
+    private int followerCount = 0;
+    
+    public UserProfile(String username) {
+        this.username = username;
+    }
+    
+    public void addFollower(SocialMediaObserver follower) {
+        followers.add(follower);
+        followerCount++;
+        System.out.println("👤 " + follower.getNotificationPreference() + 
+                         " started following " + username);
+        notifyNewFollower(follower.getNotificationPreference());
+    }
+    
+    public void removeFollower(SocialMediaObserver follower) {
+        followers.remove(follower);
+        followerCount--;
+        System.out.println("👤 " + follower.getNotificationPreference() + 
+                         " unfollowed " + username);
+    }
+    
+    public void createPost(String content) {
+        String postId = "POST_" + System.currentTimeMillis();
+        posts.add(content);
+        System.out.println("📝 " + username + " created new post: \"" + content + "\"");
+        notifyNewPost(content);
+    }
+    
+    public void notifyNewPost(String content) {
+        String timestamp = java.time.LocalDateTime.now().toString();
+        for (SocialMediaObserver follower : followers) {
+            follower.onNewPost(username, content, timestamp);
+        }
+    }
+    
+    public void notifyNewFollower(String followerName) {
+        // Notify the user about new follower (not all followers)
+        System.out.println("🎉 " + username + " gained a new follower: " + followerName);
+    }
+    
+    public void notifyLike(String postId) {
+        for (SocialMediaObserver follower : followers) {
+            follower.onLike(username, postId);
+        }
+    }
+    
+    public String getUsername() { return username; }
+    public int getFollowerCount() { return followerCount; }
+}
+
+// Concrete Observers
+class MobileAppNotification implements SocialMediaObserver {
+    private String deviceId;
+    private boolean pushEnabled = true;
+    
+    public MobileAppNotification(String deviceId) {
+        this.deviceId = deviceId;
+    }
+    
+    public void onNewPost(String username, String content, String timestamp) {
+        if (pushEnabled) {
+            System.out.println("📱 [Mobile Push] " + username + " posted: \"" + 
+                             content.substring(0, Math.min(content.length(), 50)) + 
+                             (content.length() > 50 ? "..." : "") + "\"");
+        }
+    }
+    
+    public void onNewFollower(String followerName) {
+        // Mobile app doesn't notify about new followers to other users
+    }
+    
+    public void onLike(String username, String postId) {
+        if (pushEnabled) {
+            System.out.println("📱 [Mobile Push] " + username + " liked your post");
+        }
+    }
+    
+    public void setPushEnabled(boolean enabled) { 
+        this.pushEnabled = enabled; 
+        System.out.println("📱 Push notifications " + (enabled ? "enabled" : "disabled") + 
+                         " for " + deviceId);
+    }
+    
+    public String getNotificationPreference() { return "Mobile User (" + deviceId + ")"; }
+}
+
+class EmailNotification implements SocialMediaObserver {
+    private String emailAddress;
+    private boolean dailyDigest = true;
+    private List<String> pendingNotifications = new ArrayList<>();
+    
+    public EmailNotification(String email) {
+        this.emailAddress = email;
+    }
+    
+    public void onNewPost(String username, String content, String timestamp) {
+        if (dailyDigest) {
+            pendingNotifications.add("New post from " + username + ": " + content);
+        } else {
+            sendImmediateEmail("New post from " + username, content);
+        }
+    }
+    
+    public void onNewFollower(String followerName) {
+        // Email notifications for new followers are usually disabled
+    }
+    
+    public void onLike(String username, String postId) {
+        pendingNotifications.add(username + " liked your post");
+    }
+    
+    private void sendImmediateEmail(String subject, String content) {
+        System.out.println("📧 [Email] To: " + emailAddress + 
+                         " | Subject: " + subject + " | Content: " + content);
+    }
+    
+    public void sendDailyDigest() {
+        if (!pendingNotifications.isEmpty()) {
+            System.out.println("📧 [Daily Digest] To: " + emailAddress);
+            System.out.println("   You have " + pendingNotifications.size() + " notifications:");
+            for (String notification : pendingNotifications) {
+                System.out.println("   - " + notification);
+            }
+            pendingNotifications.clear();
+        }
+    }
+    
+    public String getNotificationPreference() { return "Email User (" + emailAddress + ")"; }
+}
+
+class AnalyticsTracker implements SocialMediaObserver {
+    private String analyticsId;
+    private Map<String, Integer> postEngagement = new HashMap<>();
+    private Map<String, Integer> userActivity = new HashMap<>();
+    
+    public AnalyticsTracker(String id) {
+        this.analyticsId = id;
+    }
+    
+    public void onNewPost(String username, String content, String timestamp) {
+        userActivity.put(username, userActivity.getOrDefault(username, 0) + 1);
+        System.out.println("📊 [Analytics] Post created by " + username + 
+                         " (total posts: " + userActivity.get(username) + ")");
+    }
+    
+    public void onNewFollower(String followerName) {
+        System.out.println("📊 [Analytics] New follower acquired: " + followerName);
+    }
+    
+    public void onLike(String username, String postId) {
+        postEngagement.put(postId, postEngagement.getOrDefault(postId, 0) + 1);
+        System.out.println("📊 [Analytics] Like recorded for " + postId + 
+                         " (total likes: " + postEngagement.get(postId) + ")");
+    }
+    
+    public void generateReport() {
+        System.out.println("📊 [Analytics Report]");
+        System.out.println("   Active users: " + userActivity.size());
+        System.out.println("   Total posts: " + userActivity.values().stream().mapToInt(Integer::intValue).sum());
+        System.out.println("   Total likes: " + postEngagement.values().stream().mapToInt(Integer::intValue).sum());
+    }
+    
+    public String getNotificationPreference() { return "Analytics System"; }
+}
+
+// Usage Example
+public class SocialMediaExample {
+    public static void main(String[] args) {
+        // Create user profiles
+        UserProfile techInfluencer = new UserProfile("@TechGuru");
+        UserProfile photographer = new UserProfile("@PhotoPro");
+        
+        // Create notification observers
+        MobileAppNotification johnMobile = new MobileAppNotification("iPhone_John");
+        MobileAppNotification sarahMobile = new MobileAppNotification("Android_Sarah");
+        EmailNotification johnEmail = new EmailNotification("john@example.com");
+        AnalyticsTracker analytics = new AnalyticsTracker("SocialMedia_Analytics");
+        
+        // Users follow the influencer
+        techInfluencer.addFollower(johnMobile);
+        techInfluencer.addFollower(sarahMobile);
+        techInfluencer.addFollower(johnEmail);
+        techInfluencer.addFollower(analytics);
+        
+        photographer.addFollower(johnMobile);
+        photographer.addFollower(analytics);
+        
+        System.out.println("\n--- Social Media Activity ---");
+        
+        // Simulate social media activity
+        techInfluencer.createPost("Just released a new tutorial on design patterns! Check it out 🚀");
+        photographer.createPost("Golden hour shot from today's photoshoot ✨📸");
+        
+        // Simulate likes (would normally come from other users)
+        techInfluencer.notifyLike("POST_123");
+        photographer.notifyLike("POST_456");
+        
+        // User changes notification preferences
+        System.out.println("\n--- Changing Notification Preferences ---");
+        johnMobile.setPushEnabled(false);
+        
+        // More activity
+        techInfluencer.createPost("Working on a new project with microservices architecture!");
+        
+        // Generate analytics report
+        System.out.println("\n--- Analytics Report ---");
+        analytics.generateReport();
+        
+        // Send daily digest
+        System.out.println("\n--- Daily Email Digest ---");
+        johnEmail.sendDailyDigest();
+    }
+}
+```
+
+#### 🎯 **Key Benefits Demonstrated:**
+- **📡 Loose Coupling:** Subjects don't know about specific observer implementations
+- **🔄 Dynamic Relationships:** Observers can subscribe/unsubscribe at runtime
+- **📢 Broadcast Communication:** One event notifies multiple observers simultaneously
+- **⚡ Event-Driven Architecture:** Automatic reactions to state changes
+- **🎛️ Flexible Notifications:** Different observers can handle events differently
+- **📊 Real-Time Updates:** Immediate propagation of changes to interested parties
+
 ---
 
-### 4. Strategy Pattern 🎯
+### 3. Strategy Pattern 🎯
 
-**Location:** `src/behavioural/strategy/payment/`
+**Location:** `src/behavioural/strategy/`
 
 **Core Purpose:** Defines a family of algorithms, encapsulates each one, and makes them interchangeable at runtime.
 
@@ -333,6 +732,25 @@ Future patterns will demonstrate powerful combinations:
 - **Sorting Algorithms:** QuickSort, MergeSort, BubbleSort
 - **Navigation Apps:** Fastest route, shortest route, scenic route
 - **Authentication:** OAuth, LDAP, database authentication
+
+---
+
+### 4. Memento Pattern 💾
+
+**Location:** `src/behavioural/memento/`
+
+**Core Purpose:** Captures and externalizes an object's internal state without violating encapsulation, allowing the object to be restored to this state later.
+
+#### Three Implementations:
+- **Text Editor with Undo:** Basic undo/redo functionality
+- **Graphic Editor:** Shape manipulation with history
+- **Transaction Rollback:** Database-like operations with rollback
+
+#### Real-World Use Cases:
+- **Text Editors:** Undo/Redo functionality (MS Word, VS Code)
+- **Database Systems:** Transaction rollback, savepoints
+- **Game Development:** Save/load game states, checkpoints
+- **Version Control:** Git commits, branching
 
 ---
 
@@ -587,3 +1005,434 @@ Relationships:
 **Happy Coding! 🚀**
 
 *This project demonstrates practical implementations of fundamental behavioral design patterns that you'll encounter in real-world software development, with future expansion planned for creational design patterns.*
+
+---
+
+## 🏭 **Creational Design Patterns Overview**
+
+**Creational patterns** are design patterns that deal with object creation mechanisms, trying to create objects in a manner suitable to the situation. These patterns provide flexibility in deciding which objects need to be created for a given use case and make the system independent of how its objects are created, composed, and represented.
+
+### 🎯 **Core Characteristics of Creational Patterns:**
+
+#### **1. Object Creation Control** 🎛️
+- **Instance Management:** Control how and when objects are created
+- **Resource Optimization:** Prevent unnecessary object creation
+- **Memory Management:** Efficient use of system resources
+- **Lifecycle Management:** Control object initialization and destruction
+
+#### **2. Abstraction of Instantiation** 🔒
+- **Hide Complexity:** Abstract the object creation process from clients
+- **Flexible Creation:** Allow different ways to create objects
+- **Decoupling:** Separate object creation from object usage
+- **Configuration-Driven:** Enable creation based on configuration or context
+
+#### **3. Reusability and Consistency** ♻️
+- **Consistent Creation:** Ensure objects are created in a consistent manner
+- **Code Reuse:** Reuse creation logic across different parts of the application
+- **Standardization:** Establish standard patterns for object creation
+- **Maintainability:** Centralize creation logic for easier maintenance
+
+### 🎯 **Currently Implemented: Singleton Pattern** 👑
+
+---
+
+### 1. Singleton Pattern 👑
+
+**Location:** `src/creational/singleton/`
+
+**Core Purpose:** Ensures that a class has only one instance and provides a global point of access to that instance.
+
+#### Key Components:
+- **Private Constructor:** Prevents external instantiation
+- **Static Instance Variable:** Holds the single instance
+- **Static Factory Method:** Provides controlled access to the instance
+- **Thread Safety:** Ensures safe creation in multi-threaded environments
+
+#### Real-World Use Cases:
+- **Configuration Management:** Application settings, database connections
+- **Logging Systems:** Centralized logging across the application
+- **Caching:** Shared application cache, session management
+- **Hardware Interface:** Printer spoolers, device drivers
+
+#### 🏗️ **Implementation 1: Application Configuration System**
+
+```java
+package creational.singleton;
+
+/**
+ * Singleton pattern for Application Configuration
+ * Manages global application settings like database URL and API keys
+ */
+public class AppSetting {
+    // Static instance variable (lazy initialization)
+    private static AppSetting instance;
+    
+    // Configuration properties
+    private String databaseUrl;
+    private String apiKey;
+
+    // Private constructor prevents external instantiation
+    private AppSetting() {
+        this.databaseUrl = "jdbc:mysql://localhost:3306/mydb";
+        this.apiKey = "wxxzzxzd";
+    }
+
+    // Static factory method with lazy initialization
+    public static AppSetting getInstance() {
+        if (instance == null) {
+            instance = new AppSetting();
+        }
+        return instance;
+    }
+
+    // Getter methods for configuration access
+    public String getDatabaseUrl() {
+        return databaseUrl;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    // Setter methods for configuration updates
+    public void setDatabaseUrl(String databaseUrl) {
+        this.databaseUrl = databaseUrl;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+}
+```
+
+#### 🔧 **Usage Example:**
+
+```java
+package creational.singleton;
+
+/**
+ * Demonstrates the Singleton pattern usage
+ * Shows how multiple calls to getInstance() return the same object
+ */
+public class WithOutSingletonPattern {
+    public static void main(String[] args) {
+        // Get singleton instances
+        AppSetting config1 = AppSetting.getInstance();
+        AppSetting config2 = AppSetting.getInstance();
+        
+        // Display configuration values
+        System.out.println(config1.getDatabaseUrl());
+        System.out.println(config2.getDatabaseUrl());
+        
+        // Verify both references point to the same object
+        System.out.println(config1 == config2); // Output: true
+        
+        // Demonstrate shared state
+        config1.setDatabaseUrl("jdbc:postgresql://localhost:5432/newdb");
+        System.out.println("Updated URL via first reference: " + config1.getDatabaseUrl());
+        System.out.println("URL via second reference: " + config2.getDatabaseUrl());
+        // Both show the same updated value, confirming single instance
+    }
+}
+```
+
+#### 🛡️ **Implementation 2: Thread-Safe Logger System**
+
+```java
+package creational.singleton.logger;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * Thread-safe Singleton Logger
+ * Provides centralized logging functionality across the application
+ * Uses synchronized method to ensure thread safety
+ */
+public class Logger {
+    // Static instance variable
+    private static Logger instance;
+
+    // Private constructor to prevent instantiation
+    private Logger() {
+        // Initialize logger (could include file setup, configuration, etc.)
+    }
+
+    // Thread-safe singleton access method
+    public static synchronized Logger getInstance() {
+        if (instance == null) {
+            instance = new Logger(); // Only one thread can execute this
+        }
+        return instance;
+    }
+
+    // Logging methods for different levels
+    public void info(String message) {
+        log("INFO", message);
+    }
+
+    public void warn(String message) {
+        log("WARN", message);
+    }
+
+    public void error(String message) {
+        log("ERROR", message);
+    }
+
+    // Private method to handle actual logging
+    private void log(String level, String message) {
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        System.out.println(String.format("%s [%s]: %s", timestamp, level, message));
+    }
+}
+```
+
+#### 🎮 **Interactive Logger Exercise:**
+
+```java
+package creational.singleton.logger;
+
+import java.util.Scanner;
+
+/**
+ * Interactive exercise demonstrating Logger singleton usage
+ * Allows users to test different logging levels
+ */
+public class Exercise {
+    public void run() {
+        Logger logger = Logger.getInstance();
+        Scanner sc = new Scanner(System.in);
+
+        // Get an info message from the user
+        System.out.print("Enter an info message: ");
+        String infoMessage = sc.nextLine();
+        logger.info(infoMessage);
+
+        // Get a warning message from the user
+        System.out.print("Enter a warning message: ");
+        String warnMessage = sc.nextLine();
+        logger.warn(warnMessage);
+
+        // Get an error message from the user
+        System.out.print("Enter an error message: ");
+        String errorMessage = sc.nextLine();
+        logger.error(errorMessage);
+
+        sc.close();
+    }
+
+    public static void main(String[] args) {
+        System.out.println("=== Singleton Logger Exercise ===");
+        System.out.println("This demonstrates the Singleton pattern with a logging system.");
+        System.out.println("Notice how the same Logger instance is used throughout.\n");
+        
+        Exercise exercise = new Exercise();
+        exercise.run();
+        
+        // Demonstrate that multiple calls return the same instance
+        Logger logger1 = Logger.getInstance();
+        Logger logger2 = Logger.getInstance();
+        
+        System.out.println("\n=== Singleton Verification ===");
+        System.out.println("Logger instance 1: " + logger1.hashCode());
+        System.out.println("Logger instance 2: " + logger2.hashCode());
+        System.out.println("Same instance? " + (logger1 == logger2));
+    }
+}
+```
+
+#### 🎯 **Key Benefits Demonstrated:**
+
+##### **1. Single Instance Guarantee** 🎯
+```java
+// Multiple calls always return the same instance
+AppSetting config1 = AppSetting.getInstance();
+AppSetting config2 = AppSetting.getInstance();
+System.out.println(config1 == config2); // Always true
+```
+
+##### **2. Global Access Point** 🌐
+```java
+// Access from anywhere in the application
+public class DatabaseService {
+    public void connect() {
+        String url = AppSetting.getInstance().getDatabaseUrl();
+        // Use the global configuration
+    }
+}
+
+public class ApiService {
+    public void authenticate() {
+        String key = AppSetting.getInstance().getApiKey();
+        // Use the same global configuration
+    }
+}
+```
+
+##### **3. Resource Conservation** 💾
+```java
+// Before Singleton: Multiple logger instances waste memory
+Logger logger1 = new Logger(); // Creates new instance
+Logger logger2 = new Logger(); // Creates another instance
+Logger logger3 = new Logger(); // Creates yet another instance
+
+// With Singleton: Single shared instance
+Logger logger1 = Logger.getInstance(); // Creates or returns existing
+Logger logger2 = Logger.getInstance(); // Returns same instance
+Logger logger3 = Logger.getInstance(); // Returns same instance
+```
+
+##### **4. Thread Safety** 🔒
+```java
+// Thread-safe implementation ensures proper behavior in concurrent environments
+public static synchronized Logger getInstance() {
+    if (instance == null) {
+        instance = new Logger(); // Only one thread can execute this
+    }
+    return instance;
+}
+```
+
+#### 🚀 **Real-World Applications:**
+
+##### **Enterprise Applications:**
+- **Configuration Management:** Database connections, API endpoints, feature flags
+- **Logging Systems:** Centralized logging across microservices
+- **Cache Management:** Shared application cache, session management
+- **Connection Pools:** Database connection pooling, HTTP client pools
+
+##### **Game Development:**
+- **Game State Manager:** Current level, player progress, game settings
+- **Audio Manager:** Sound effects, background music control
+- **Resource Manager:** Texture loading, asset management
+- **Save System:** Game save/load functionality
+
+##### **Web Development:**
+- **Session Management:** User session tracking across requests
+- **Configuration Service:** Application settings, environment variables
+- **Metrics Collection:** Performance monitoring, analytics tracking
+- **Security Manager:** Authentication tokens, security policies
+
+#### ⚠️ **Implementation Considerations:**
+
+##### **Thread Safety Options:**
+
+1. **Synchronized Method (Current Implementation):**
+```java
+public static synchronized Logger getInstance() {
+    if (instance == null) {
+        instance = new Logger();
+    }
+    return instance;
+}
+// Pros: Simple, thread-safe
+// Cons: Performance overhead on every call
+```
+
+2. **Double-Checked Locking:**
+```java
+public static Logger getInstance() {
+    if (instance == null) {
+        synchronized (Logger.class) {
+            if (instance == null) {
+                instance = new Logger();
+            }
+        }
+    }
+    return instance;
+}
+// Pros: Better performance, thread-safe
+// Cons: More complex, requires volatile keyword
+```
+
+3. **Eager Initialization:**
+```java
+private static final Logger instance = new Logger();
+
+public static Logger getInstance() {
+    return instance;
+}
+// Pros: Simple, thread-safe, fast access
+// Cons: Instance created even if never used
+```
+
+#### 🎯 **When to Use Singleton Pattern:**
+
+##### **✅ Use Singleton When:**
+- Only one instance should exist (database connection, configuration)
+- Global access point is needed
+- Instance creation is expensive
+- Shared state management is required
+- Resource coordination is necessary
+
+##### **❌ Avoid Singleton When:**
+- Multiple instances might be needed in the future
+- Testing becomes difficult (hard to mock)
+- Tight coupling is introduced
+- Simple dependency injection would suffice
+- State sharing creates concurrency issues
+
+---
+
+{{ ... }}
+```bash
+# Singleton Pattern - Application Configuration
+java creational.singleton.WithOutSingletonPattern
+
+# Singleton Pattern - Interactive Logger Exercise
+java creational.singleton.logger.Exercise
+
+# Command Pattern
+java behavioural.command.WithCommondPattern
+{{ ... }}
+#### Interactive Examples:
+
+**Singleton Pattern - Logger Exercise:**
+```bash
+java creational.singleton.logger.Exercise
+# Interactive demo that allows you to:
+# 1. Test different logging levels (INFO, WARN, ERROR)
+# 2. See timestamp formatting in action
+# 3. Verify singleton behavior with instance comparison
+# 4. Experience thread-safe singleton implementation
+# 
+# Example interaction:
+# Enter an info message: Application started successfully
+# Enter a warning message: Low memory detected
+# Enter an error message: Database connection failed
+# 
+# Output shows:
+# 2024-01-15 14:30:25 [INFO]: Application started successfully
+# 2024-01-15 14:30:30 [WARN]: Low memory detected
+# 2024-01-15 14:30:35 [ERROR]: Database connection failed
+# 
+# Singleton verification shows same instance hash codes
+```
+
+**Singleton Pattern - Configuration Demo:**
+```bash
+java creational.singleton.WithOutSingletonPattern
+# Demonstrates:
+# - Single instance creation and reuse
+# - Shared state across multiple references
+# - Object identity comparison (== returns true)
+# - Global configuration access pattern
+```
+{{ ... }}
+| Pattern | Use When | Avoid When |
+|---------|----------|------------|
+| **Singleton** | Need single instance, global access | Multiple instances needed, testing difficulties |
+| **Command** | Need undo/redo, queuing, logging | Simple direct method calls suffice |
+{{ ... }}
+## 🔧 Extension Ideas
+
+**Singleton Pattern Enhancements:**
+- Add **Double-Checked Locking** for better performance
+- Implement **Enum Singleton** for serialization safety
+- Create **Registry Singleton** for managing multiple named instances
+- Add **Lazy Holder Pattern** for thread-safe lazy initialization
+- Implement **Singleton with Parameters** for configurable instances
+
+**General Pattern Extensions:**
+- Add **Undo functionality** to Command Pattern
+{{ ... }}
