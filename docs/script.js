@@ -666,8 +666,8 @@ function generateUI() {
 // Product Interface
 class Transport {
     deliver() { throw new Error("Deliver method must be implemented"); }
-    getIcon() { throw new Error("getIcon method must be implemented"); }
-    getType() { throw new Error("getType method must be implemented"); }
+    getIcon() { return '🚚'; } // Default icon
+    getType() { return 'Transport'; } // Default type
 }
 
 // Concrete Products
@@ -688,7 +688,7 @@ class Ship extends Transport {
 }
 
 // Creator
-abstract class Logistics {
+class Logistics {
     planDelivery() {
         const transport = this.createTransport();
         return transport; // Return the object itself
