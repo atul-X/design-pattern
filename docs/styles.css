@@ -239,7 +239,7 @@ body {
 }
 
 .log-content {
-    max-height: 200px;
+    max-height: 400px;
     overflow-y: auto;
     padding: 1rem;
 }
@@ -420,59 +420,100 @@ body {
     font-weight: 500;
 }
 
-/* Code Examples */
-.code-example {
-    background: white;
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: var(--shadow-md);
-    margin-top: 2rem;
-}
-
-.code-example h5 {
-    margin-bottom: 1.5rem;
-    color: var(--dark-color);
-}
-
-.code-example pre {
-    background: #2d2d2d;
-    border-radius: 0.5rem;
+/* Abstract Factory Demo */
+#ui-preview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    min-height: 150px;
+    background-color: var(--light-color);
+    border-radius: .75rem;
     padding: 1.5rem;
-    margin-bottom: 0;
+    border: 1px solid #dee2e6;
 }
 
-.code-example code {
-    color: #f8f8f2;
-    font-size: 0.875rem;
+.af-button-windows {
+    border-radius: 0.25rem; /* Sharper corners for Windows */
+    background-color: #e1e1e1;
+    border-color: #adadad;
+    color: black;
 }
 
-/* Coming Soon */
-.coming-soon {
+.af-button-mac {
+    border-radius: 0.5rem; /* More rounded for macOS */
+}
+
+.af-scrollbar-container {
+    width: 100%;
     text-align: center;
-    padding: 4rem 2rem;
 }
 
-.coming-soon-content {
-    max-width: 600px;
+.generated-ui-item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.scrollbar-windows {
+    width: 80%;
+    height: 12px;
+    background: #f0f0f0;
+    border: 1px solid #dcdcdc;
+    position: relative;
     margin: 0 auto;
 }
 
-.coming-soon h4 {
-    margin-bottom: 1rem;
-    color: var(--dark-color);
+.scrollbar-windows::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 40%;
+    height: 6px;
+    background: #c1c1c1;
+    border-radius: 3px;
 }
 
-.coming-soon p {
-    font-size: 1.1rem;
-    color: var(--secondary-color);
-    margin-bottom: 2rem;
+.scrollbar-mac {
+    width: 80%;
+    height: 12px;
+    background: #e9e9e9;
+    border-radius: 6px;
+    position: relative;
+    margin: 0 auto;
 }
 
-.features-preview {
+.scrollbar-mac::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 40%;
+    height: 6px;
+    background: #bcbcbc;
+    border-radius: 3px;
+}
+
+/* Factory Method Demo */
+.delivery-plan-card {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--light-color);
+    padding: 1rem;
+    border-radius: .75rem;
+    border: 1px solid #dee2e6;
+}
+
+.plan-icon {
+    font-size: 2.5rem;
+}
+
+/* Coming Soon Placeholder */
+.coming-soon-overlay {
+    position: relative;
 }
 
 /* Footer */
@@ -629,4 +670,59 @@ html {
 .log-content::-webkit-scrollbar-thumb:hover,
 .history-content::-webkit-scrollbar-thumb:hover {
     background: #777;
+}
+
+/* Code Examples */
+.code-example {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    margin-top: 2rem;
+}
+
+.code-example h5 {
+    margin-bottom: 1.5rem;
+    color: var(--dark-color);
+}
+
+.code-example pre {
+    background: #2d2d2d;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 0;
+}
+
+.code-example code {
+    color: #f8f8f2;
+    font-size: 0.875rem;
+}
+
+/* Coming Soon */
+.coming-soon {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.coming-soon-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.coming-soon h4 {
+    margin-bottom: 1rem;
+    color: var(--dark-color);
+}
+
+.coming-soon p {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    margin-bottom: 2rem;
+}
+
+.features-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
 }

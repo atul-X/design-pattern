@@ -538,6 +538,7 @@ function executeCommand(commandType, param) {
     if (command) {
         smartHomeController.executeCommand(command);
     }
+    smartHomeController.clearHistory();
 }
 
 function undoCommand() {
@@ -570,12 +571,164 @@ function clearHistory() {
 }
 
 function updateTempDisplay() {
-    const slider = document.getElementById('tempSlider');
-    const display = document.getElementById('tempDisplay');
+    const tempSlider = document.getElementById('tempSlider');
+    const tempDisplay = document.getElementById('tempDisplay');
 
-    if (slider && display) {
-        display.textContent = `${slider.value}°C`;
+    if (tempSlider && tempDisplay) {
+        tempDisplay.textContent = `${tempSlider.value}°C`;
     }
+}
+
+// --- Abstract Factory Pattern --- //
+
+// Product Interfaces
+class Button {
+    render() { throw new Error("Render method must be implemented"); }
+}
+class ScrollBar {
+    render() { throw new Error("Render method must be implemented"); }
+}
+
+// Concrete Products for Windows
+class WindowsButton extends Button {
+    render() {
+        return '<button class="btn btn-light border ms-2 me-2 af-button-windows">Save</button>';
+    }
+}
+class WindowsScrollBar extends ScrollBar {
+    render() {
+        return `
+            <div class="af-scrollbar-container">
+                <small class="text-muted">Windows Scrollbar</small>
+                <div class="scrollbar-windows"></div>
+            </div>
+        `;
+    }
+}
+
+// Concrete Products for macOS
+class MacButton extends Button {
+    render() {
+        return '<button class="btn btn-primary ms-2 me-2 af-button-mac">Save</button>';
+    }
+}
+class MacScrollBar extends ScrollBar {
+    render() {
+        return `
+            <div class="af-scrollbar-container">
+                <small class="text-muted">macOS Scrollbar</small>
+                <div class="scrollbar-mac"></div>
+            </div>
+        `;
+    }
+}
+
+// Abstract Factory
+class UIFactory {
+    createButton() { throw new Error("createButton must be implemented"); }
+    createScrollBar() { throw new Error("createScrollBar must be implemented"); }
+}
+
+// Concrete Factories
+class WindowsFactory extends UIFactory {
+    createButton() { return new WindowsButton(); }
+    createScrollBar() { return new WindowsScrollBar(); }
+}
+
+class MacFactory extends UIFactory {
+    createButton() { return new MacButton(); }
+    createScrollBar() { return new MacScrollBar(); }
+}
+
+function generateUI() {
+    const osType = document.getElementById('os-type-select').value;
+    let factory;
+
+    if (osType === 'windows') {
+        factory = new WindowsFactory();
+    } else {
+        factory = new MacFactory();
+    }
+
+    const button = factory.createButton();
+    const scrollbar = factory.createScrollBar();
+
+    const previewContainer = document.getElementById('ui-preview-container');
+    previewContainer.innerHTML = `
+        <div class="generated-ui-item">${button.render()}</div>
+        <div class="generated-ui-item">${scrollbar.render()}</div>
+        <p class="text-success small mt-3 fw-bold">Successfully generated UI Kit for ${osType.toUpperCase()}.</p>
+    `;
+}
+
+// --- Factory Method Pattern --- //
+
+// Product Interface
+class Transport {
+    deliver() { throw new Error("Deliver method must be implemented"); }
+    getIcon() { throw new Error("getIcon method must be implemented"); }
+    getType() { throw new Error("getType method must be implemented"); }
+}
+
+// Concrete Products
+class Truck extends Transport {
+    deliver() {
+        return '🚚 Delivering by land in a truck.';
+    }
+    getIcon() { return '🚚'; }
+    getType() { return 'Truck'; }
+}
+
+class Ship extends Transport {
+    deliver() {
+        return '🚢 Delivering by sea in a ship.';
+    }
+    getIcon() { return '🚢'; }
+    getType() { return 'Ship'; }
+}
+
+// Creator
+abstract class Logistics {
+    planDelivery() {
+        const transport = this.createTransport();
+        return transport; // Return the object itself
+    }
+    createTransport() { throw new Error("createTransport must be implemented"); }
+}
+
+// Concrete Creators
+class RoadLogistics extends Logistics {
+    createTransport() { return new Truck(); }
+}
+
+class SeaLogistics extends Logistics {
+    createTransport() { return new Ship(); }
+}
+
+function planDelivery() {
+    const deliveryType = document.querySelector('input[name="deliveryType"]:checked').value;
+    let logistics;
+
+    if (deliveryType === 'road') {
+        logistics = new RoadLogistics();
+    } else {
+        logistics = new SeaLogistics();
+    }
+
+    const transport = logistics.planDelivery();
+    const outputElement = document.getElementById('logistics-output');
+    
+    outputElement.innerHTML = `
+        <div class="delivery-plan-card">
+            <div class="plan-icon">${transport.getIcon()}</div>
+            <div>
+                <h6 class="mb-1">${logistics.constructor.name}</h6>
+                <p class="mb-0 text-muted small">Transport: <strong>${transport.getType()}</strong></p>
+                <p class="mb-0 text-muted small">Status: <strong>Processing...</strong></p>
+            </div>
+        </div>
+        <div class="alert alert-success mt-3 small">${transport.deliver()}</div>
+    `;
 }
 
 // Handle Enter key in log message input
@@ -583,7 +736,7 @@ document.addEventListener('keypress', function(e) {
     if (e.target.id === 'logMessage' && e.key === 'Enter') {
         logMessage();
     }
-});
+}
 
 // Navbar scroll effect
 window.addEventListener('scroll', function() {

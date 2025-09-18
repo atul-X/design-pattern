@@ -77,7 +77,7 @@ public class Solution {
 		solution.updateCol("customer","age","21");
 		solution.updateCol("customer","name ","alice");
 		solution.updateCol("user","name ","alice");
-		solution.display();
+//		solution.display();
 
 		solution.begin();
 		solution.delete("customer");

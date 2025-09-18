@@ -19,15 +19,18 @@ src/
 │   ├── state/                      # State Pattern Implementation
 │   ├── strategy/                   # Strategy Pattern Implementation
 │   └── template/                   # Template Method Pattern Implementation
-├── creational/                     # Creational Design Patterns (Current Implementation)
+├── creational/                     # Creational Design Patterns
+│   ├── abstractfactorypattern/     # Abstract Factory Pattern Implementation
+│   │   ├── problem/                # Implementation without the pattern
+│   │   └── solution/               # Refactored with Abstract Factory
+│   ├── factorymethod/              # Factory Method Pattern Implementation
+│   │   └── LogisticsApp.java       # Logistics example for Factory Method
 │   ├── singleton/                  # Singleton Pattern Implementation
 │   │   ├── logger/                 # Thread-safe Logger System
 │   │   ├── AppSetting.java         # Application Configuration Singleton
 │   │   └── WithOutSingletonPattern.java # Demonstrates singleton usage
-│   ├── factory/                    # Factory Pattern (Planned)
 │   ├── builder/                    # Builder Pattern (Planned)
-│   ├── prototype/                  # Prototype Pattern (Planned)
-│   └── abstractfactory/            # Abstract Factory Pattern (Planned)
+│   └── prototype/                  # Prototype Pattern (Planned)
 └── Main.java                       # Main entry point
 ```
 
@@ -55,22 +58,112 @@ Design patterns are categorized into three main types based on their purpose:
 
 ---
 
-## 🔍 **What Are Design Patterns?**
+## 🏭 **Creational Design Patterns Overview**
 
-Design patterns are **reusable solutions** to commonly occurring problems in software design. They represent best practices evolved over time by experienced developers and provide a **common vocabulary** for discussing design solutions.
+**Creational patterns** provide various object creation mechanisms, which increase flexibility and reuse of existing code. They help make a system independent of how its objects are created, composed, and represented.
 
-### 🎯 **Key Characteristics:**
-- **Proven Solutions:** Time-tested approaches to common problems
-- **Language Independent:** Concepts applicable across programming languages
-- **Communication Tool:** Shared vocabulary for developers
-- **Best Practices:** Encapsulate expert knowledge and experience
-- **Flexibility:** Adaptable to specific contexts and requirements
+### 🎯 **Core Characteristics of Creational Patterns:**
+
+- **Hiding Creation Logic**: They encapsulate the knowledge of which concrete classes the system uses.
+- **Flexibility**: The system becomes more flexible in what gets created, who creates it, and how it gets created.
+- **Reusability**: They promote reusing code by defining a way to create objects.
+
+### 🎪 **Types of Creational Patterns Implemented:**
+
+#### **1. Singleton Pattern** 👑
+
+**Location:** `src/creational/singleton/`
+
+**Core Purpose:** Ensures a class has only one instance and provides a global point of access to it.
+
+- **Use Cases:** Logging, driver objects, caching, and thread pools.
+- **Implementation:** Involves a private constructor, a static field containing its only instance, and a static factory method for obtaining the instance.
+
+#### **2. Abstract Factory Pattern** 🏗️
+
+**Location:** `src/creational/abstractfactorypattern/`
+
+**Core Purpose:** Provides an interface for creating **families of related or dependent objects** without specifying their concrete classes.
+
+- **Problem Solved:** Imagine creating UI elements for different operating systems (Windows, macOS). You need to ensure that a `WindowsButton` is always used with a `WindowsScrollBar`. An Abstract Factory (`WindowsFactory`) guarantees that all created components belong to the same family.
+
+- **Key Components:**
+  - **AbstractFactory:** Declares an interface for operations that create abstract product objects.
+  - **ConcreteFactory:** Implements the operations to create concrete product objects.
+  - **AbstractProduct:** Declares an interface for a type of product object.
+  - **ConcreteProduct:** Defines a product object to be created by the corresponding concrete factory.
+
+- **Code Example (`solution/Application.java`):**
+  ```java
+  // Abstract Factory
+  interface UiFactory {
+      Button createButton();
+      Scrollbar createScrollBar();
+  }
+
+  // Concrete Factory for Windows
+  class WindowUiFactory implements UiFactory {
+      public Button createButton() { return new WindowButton(); }
+      public Scrollbar createScrollBar() { return new WindowScrollBar(); }
+  }
+
+  // Client Code
+  public class Application {
+      private Button button;
+      private Scrollbar scrollBar;
+
+      public Application(UiFactory factory) {
+          button = factory.createButton();
+          scrollBar = factory.createScrollBar();
+      }
+      // ...
+  }
+  ```
+
+#### **3. Factory Method Pattern** 🏭
+
+**Location:** `src/creational/factorymethod/`
+
+**Core Purpose:** Defines an interface for creating a **single object**, but lets subclasses decide which class to instantiate. It lets a class defer instantiation to subclasses.
+
+- **Problem Solved:** Consider a logistics application. The main `Logistics` class plans a delivery but doesn't know if it will be by truck or ship. Subclasses like `RoadLogistics` and `SeaLogistics` decide which specific transport object to create.
+
+- **Key Components:**
+  - **Product:** Defines the interface of objects the factory method creates.
+  - **ConcreteProduct:** Implements the Product interface.
+  - **Creator:** Declares the factory method, which returns an object of type Product.
+  - **ConcreteCreator:** Overrides the factory method to return an instance of a ConcreteProduct.
+
+- **Code Example (`LogisticsApp.java`):**
+  ```java
+  // Creator
+  abstract class Logistics {
+      // The factory method
+      public abstract Transport createTransport();
+
+      public void planDelivery() {
+          Transport transport = createTransport();
+          transport.deliver();
+      }
+  }
+
+  // Concrete Creator
+  class RoadLogistics extends Logistics {
+      public Transport createTransport() {
+          return new Truck();
+      }
+  }
+
+  // Client Code
+  Logistics logistics = new RoadLogistics();
+  logistics.planDelivery(); // Uses a Truck
+  ```
 
 ---
 
 ## 🎯 **Behavioral Design Patterns Overview**
 
-**Behavioral patterns** are design patterns that identify common communication patterns between objects and realize these patterns. These patterns increase flexibility in carrying out communication by characterizing the ways in which classes or objects interact and distribute responsibility.
+Behavioral patterns are design patterns that identify common communication patterns between objects and realize these patterns. These patterns increase flexibility in carrying out communication by characterizing the ways in which classes or objects interact and distribute responsibility.
 
 ### 🎯 **Core Characteristics of Behavioral Patterns:**
 
