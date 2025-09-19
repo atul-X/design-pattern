@@ -688,12 +688,16 @@ class Ship extends Transport {
 }
 
 // Creator
+// Creator
 class Logistics {
     planDelivery() {
         const transport = this.createTransport();
-        return transport; // Return the object itself
+        // The core logic of the creator uses the product.
+        return [Planning delivery... ${transport.deliver()}](cci:1://file:///Users/atulkumar/Desktop/projects/design-pattern/src/creational/factorymethod/LogisticsApp.java:9:4-12:5);
     }
-    createTransport() { throw new Error("createTransport must be implemented"); }
+    createTransport() {
+        throw new Error("createTransport must be implemented");
+    }
 }
 
 // Concrete Creators
@@ -715,9 +719,11 @@ function planDelivery() {
         logistics = new SeaLogistics();
     }
 
-    const transport = logistics.planDelivery();
+    // The client code works with the creator via its base interface.
+    const planResult = logistics.planDelivery();
+    const transport = logistics.createTransport(); // Get transport details for UI
     const outputElement = document.getElementById('logistics-output');
-    
+
     outputElement.innerHTML = `
         <div class="delivery-plan-card">
             <div class="plan-icon">${transport.getIcon()}</div>
@@ -727,7 +733,7 @@ function planDelivery() {
                 <p class="mb-0 text-muted small">Status: <strong>Processing...</strong></p>
             </div>
         </div>
-        <div class="alert alert-success mt-3 small">${transport.deliver()}</div>
+        <div class="alert alert-success mt-3 small">${planResult}</div>
     `;
 }
 
