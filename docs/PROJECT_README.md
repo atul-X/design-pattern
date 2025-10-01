@@ -29,8 +29,8 @@ src/
 │   │   ├── logger/                 # Thread-safe Logger System
 │   │   ├── AppSetting.java         # Application Configuration Singleton
 │   │   └── WithOutSingletonPattern.java # Demonstrates singleton usage
-│   ├── builder/                    # Builder Pattern Implementation
-│   └── prototype/                  # Prototype Pattern Implementation
+│   ├── builder/                    # Builder Pattern (Planned)
+│   └── prototype/                  # Prototype Pattern (Planned)
 └── Main.java                       # Main entry point
 ```
 
@@ -158,111 +158,6 @@ Design patterns are categorized into three main types based on their purpose:
   Logistics logistics = new RoadLogistics();
   logistics.planDelivery(); // Uses a Truck
   ```
-
-#### **4. Builder Pattern** 🔨
-
-**Location:** `src/creational/builder/`
-
-**Core Purpose:** Separate the construction of a complex object from its representation so the same construction process can create different representations.
-
-- **Problem Solved:** When creating objects with many optional parameters or complex assembly steps, constructors become unwieldy and error-prone. Builder provides step-by-step construction and readable, flexible configuration.
-- **Key Components:** `Product` (e.g., `House`), `Builder` interface (`HouseBuilder`), `ConcreteBuilders` (`EcoHouseBuilder`, `LuxuryHouseBuilder`), `Director` (`ConstructionEngineer`).
-- **Demo:** `BuilderDemo.java` builds multiple house variants and shows a fluent builder alternative via `House.Builder`.
-
-```java
-// Director orchestrates steps
-ConstructionEngineer engineer = new ConstructionEngineer(new LuxuryHouseBuilder());
-House house = engineer.constructHouse();
-System.out.println(house);
-
-// Fluent builder alternative
-House custom = new House.Builder().rooms(4).garage(true).roof("Hip Roof").build();
-```
-
-##### Builder – Class Diagram (Mermaid)
-
-```mermaid
-classDiagram
-    class House {
-      -foundation : String
-      -structure : String
-      -rooms : int
-      -hasGarage : boolean
-      -hasGarden : boolean
-      -hasSwimmingPool : boolean
-      -roofType : String
-      -interiorStyle : String
-      +getSummary() String
-      <<Product>>
-    }
-
-    class HouseBuilder {
-      <<interface>>
-      +buildFoundation()
-      +buildStructure()
-      +buildRooms()
-      +buildRoof()
-      +buildInterior()
-      +getHouse() House
-    }
-
-    class EcoHouseBuilder {
-      <<ConcreteBuilder>>
-    }
-    class LuxuryHouseBuilder {
-      <<ConcreteBuilder>>
-    }
-
-    class ConstructionEngineer {
-      -houseBuilder : HouseBuilder
-      +constructHouse() House
-      <<Director>>
-    }
-
-    HouseBuilder <|.. EcoHouseBuilder
-    HouseBuilder <|.. LuxuryHouseBuilder
-    ConstructionEngineer --> HouseBuilder : uses
-    EcoHouseBuilder --> House : builds
-    LuxuryHouseBuilder --> House : builds
-```
-
-#### **5. Prototype Pattern** 🧬
-
-**Location:** `src/creational/prototype/`
-
-**Core Purpose:** Create new objects by cloning existing ones (prototypes), which is useful when object creation is costly or complex.
-
-- **Structure:** Contains both `problem/` (without pattern) and `solutions/` (with `Prototype` interface, `GamePiece`, `GameBoard`, and `GameClientWithPrototype`).
-- **Benefit:** Avoids subclass explosion for similar objects; enables fast duplication of configured instances.
-
-##### Prototype – Class Diagram (Mermaid)
-
-```mermaid
-classDiagram
-    class Prototype {
-      <<interface>>
-      +clone() Prototype
-    }
-
-    class GamePiece {
-      -type : String
-      -color : String
-      -health : int
-      +clone() Prototype
-      <<ConcretePrototype>>
-    }
-
-    class GameBoard {
-      -pieces : List~GamePiece~
-      +addPiece(GamePiece)
-      +copyPiece(GamePiece) GamePiece
-      <<Client/Aggregate>>
-    }
-
-    Prototype <|.. GamePiece
-    GameBoard o-- GamePiece : contains
-    GameBoard ..> Prototype : clones
-```
 
 ---
 
@@ -402,22 +297,43 @@ class TextEditor {
 - Performance overhead is critical
 - The system is small and unlikely to grow
 
-### 🏭 **Creational Design Patterns Summary**
+### 🏭 **Future Expansion: Creational Design Patterns**
 
-This project implements multiple **Creational Design Patterns** that focus on object creation mechanisms:
+The next phase of this project will implement **Creational Design Patterns** that focus on object creation mechanisms:
 
-- ✅ Factory Method (`src/creational/factorymethod/`)
-- ✅ Abstract Factory (`src/creational/abstractfactorypattern/`)
-- ✅ Singleton (`src/creational/singleton/`)
-- ✅ Builder (`src/creational/builder/`)
-- ✅ Prototype (`src/creational/prototype/`)
+#### **🔮 Planned Creational Patterns:**
+
+##### **1. Factory Method Pattern** 🏭
+- **Purpose:** Create objects without specifying exact classes
+- **Use Case:** Database connection factories, UI component creation
+- **Benefit:** Loose coupling between creator and concrete products
+
+##### **2. Builder Pattern** 🔨
+- **Purpose:** Construct complex objects step by step
+- **Use Case:** SQL query builders, configuration objects
+- **Benefit:** Flexible object construction with optional parameters
+
+##### **3. Singleton Pattern** 👑
+- **Purpose:** Ensure only one instance of a class exists
+- **Use Case:** Database connections, logging, caching
+- **Benefit:** Controlled access to shared resources
+
+##### **4. Prototype Pattern** 🧬
+- **Purpose:** Create objects by cloning existing instances
+- **Use Case:** Game object creation, document templates
+- **Benefit:** Avoid expensive object creation operations
+
+##### **5. Abstract Factory Pattern** 🏗️
+- **Purpose:** Create families of related objects
+- **Use Case:** Cross-platform UI components, database drivers
+- **Benefit:** Ensure compatibility between related objects
 
 #### **🔄 Parallel Structure Design:**
 
-The project maintains parallel organization between Behavioral and Creational patterns:
+The project will maintain parallel organization between Behavioral and Creational patterns:
 
 ```
-Behavioral Patterns (Current)     →     Creational Patterns (Current)
+Behavioral Patterns (Current)     →     Creational Patterns (Future)
 ├── Command (Actions)            →     ├── Factory Method (Object Creation)
 ├── Observer (Notifications)     →     ├── Builder (Complex Construction)
 ├── Strategy (Algorithms)        →     ├── Singleton (Instance Control)
@@ -428,7 +344,7 @@ Behavioral Patterns (Current)     →     Creational Patterns (Current)
 
 #### **🎯 Integration Opportunities:**
 
-These patterns can be combined for powerful designs:
+Future patterns will demonstrate powerful combinations:
 - **Factory + Strategy:** Create strategy objects dynamically
 - **Builder + Command:** Build complex command objects
 - **Singleton + Observer:** Global event management systems
