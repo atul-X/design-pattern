@@ -5,13 +5,14 @@ public class ProductFactory {
 
     public Product getProduct(ProductCategories categories,String sku,String name,Double price,int quantity){
         switch (categories){
-            case RETAIL ->{
+            case RETAIL:
                 return new RetailsProducts(name,price,categories,quantity,sku);
-            }
-            case ELECTRONIC -> {
+
+            case ELECTRONIC :
                 return new ElectronicProducts(name,price,categories,quantity,sku, null, 0);
-            }
-            default -> throw  new IllegalArgumentException();
+
+            default :
+                throw  new IllegalArgumentException();
         }
     }
     

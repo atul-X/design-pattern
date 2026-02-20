@@ -1,5 +1,7 @@
 package creational.prototype.problem;
 
+import creational.prototype.solutions.GamePiece;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,5 +18,14 @@ public class GameBoard {
 		for(GamePiece piece:pieces){
 			System.out.println(piece);
 		}
+	}
+	
+	@Override
+	public GameBoard clone() {
+		GameBoard cloned = new GameBoard();
+		for(GamePiece piece : pieces) {
+			cloned.addPiece(piece.clone());
+		}
+		return cloned;
 	}
 }

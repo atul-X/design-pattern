@@ -1,5 +1,7 @@
 package creational.prototype.problem;
 
+import creational.prototype.solutions.GamePiece;
+
 public class GameClientWithoutPrototype {
 	public static void main(String[] args) {
 		// Create initial game pieces
