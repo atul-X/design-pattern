@@ -14,7 +14,7 @@ public class ElevatorController {
     public ElevatorController(int numberOfElevators, int numberOfFloors) {
         this.elevators = new ArrayList<>();
         this.floors = new ArrayList<>();
-        this.schedulingStrategy = new FIFOSecheduling();
+        this.schedulingStrategy = new ScanScheduling();
         for (int i=0;i<numberOfElevators;i++){
             Elevator elevator = new Elevator(i);
             elevators.add(elevator);
