@@ -197,7 +197,7 @@ public class RedisSlidingWindowRequestRateLimiter {
 This service is responsible for applying the rate-limiting logic to incoming requests:
 
 *   **Loading Rules**: It loads the rate-limiting rules from the `rateLimitRules.json` file at application startup.
-*   **Generating Keys**: It creates a unique key for each request based on its attributes, such as IP address, customer number, tenant ID, and the request path. This enables highly granular rate-limiting policies.
+*   **Generating Keys**: It creates a unique key for each request based on its attributes, such as IP address, lld.resturantrating.customer number, tenant ID, and the request path. This enables highly granular rate-limiting policies.
 *   **Checking Limits**: For each incoming request, it determines the appropriate rule and key, and then uses `RedisSlidingWindowRequestRateLimiter` to check if the request is within the defined limits.
 *   **Handling Violations**: If a request exceeds the limit, it throws a `TooManyRequestException`, which is then handled by a global exception handler to return a `429 Too Many Requests` HTTP status code.
 
@@ -312,7 +312,7 @@ public class RateLimiterRulesService {
         requestRateLimiter.create(rules);
         Boolean overLimit = requestRateLimiter.overLimitWhenIncrementedReactive(key).block();
         if(Boolean.TRUE.equals(overLimit)) {
-            LOGGER.error("customer exceeded it's limit for type: {} and customer no is {} and IP : {}", type, customerAttributes.getCustomerNo(), customerAttributes.getSourceIp());
+            LOGGER.error("lld.resturantrating.customer exceeded it's limit for type: {} and lld.resturantrating.customer no is {} and IP : {}", type, customerAttributes.getCustomerNo(), customerAttributes.getSourceIp());
             throw new TooManyRequestException();
         }
     }

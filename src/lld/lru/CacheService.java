@@ -1,5 +1,6 @@
 package lld.lru;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class CacheService {
@@ -35,6 +36,7 @@ public class CacheService {
         linkListService.insertAtHead(node);
         return node.value;
     }
+
     public void remove(int key){
         LinkListService.Node node = cache.get(key);
         linkListService.removeNode(node);
