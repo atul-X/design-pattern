@@ -17,8 +17,10 @@ public class DraftCourse implements CourseState{
 
     @Override
     public void addQuiz(Course course, Quiz quiz) {
-        System.out.println("Quiz added to draft course.");
-        course.getQuizList().add(quiz);
+        System.out.println("Quiz added to draft course - should be added to a lesson within a module.");
+        // In the new architecture, quizzes belong to lessons, not directly to courses
+        // This method is kept for backward compatibility but should be refactored
+        System.out.println("Note: Consider adding quiz to a specific lesson instead");
     }
 
     @Override

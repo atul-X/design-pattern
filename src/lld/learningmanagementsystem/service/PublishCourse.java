@@ -18,8 +18,9 @@ public class PublishCourse implements CourseState{
 
     @Override
     public void addQuiz(Course course, Quiz quiz) {
-        System.out.println("Quiz Added");
-        course.getQuizList().add(quiz);
+        System.out.println("Quiz added to published course - should be added to a lesson within a module.");
+        // In the new architecture, quizzes belong to lessons, not directly to courses
+        System.out.println("Note: Consider adding quiz to a specific lesson instead");
     }
 
     @Override

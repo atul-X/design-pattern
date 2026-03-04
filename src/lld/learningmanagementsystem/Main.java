@@ -1,6 +1,13 @@
 package lld.learningmanagementsystem;
 
-import lld.learningmanagementsystem.model.*;
+import lld.learningmanagementsystem.model.Course;
+import lld.learningmanagementsystem.model.Module;
+import lld.learningmanagementsystem.model.Lesson;
+import lld.learningmanagementsystem.model.VideoLesson;
+import lld.learningmanagementsystem.model.Quiz;
+import lld.learningmanagementsystem.model.Questions;
+import lld.learningmanagementsystem.model.Students;
+import lld.learningmanagementsystem.model.Teacher;
 import lld.learningmanagementsystem.service.*;
 
 import java.util.ArrayList;
@@ -32,11 +39,18 @@ public class Main {
         System.out.println("✅ Registered teacher: " + registeredTeacher.getName());
 
         // Create course (starts as Draft)
-        Course course = new Course(new ArrayList<>());
+        Course course = new Course();
         course.setId(1001);
         course.setName("Java Programming");
         course.setDescription("Learn Java from basics to advanced");
         course.setInstructor("Dr. Smith");
+        
+        // Add module and lesson for new architecture
+        Module module = new Module(1, "Java Basics", "Introduction to Java", course.getId());
+        Lesson lesson = new VideoLesson(101, "Java Fundamentals", "Basic Java concepts", "https://video.java.com/basics", module.getId());
+        module.addLesson(lesson);
+        course.addModule(module);
+        
         Course createdCourse = lms.createCourse(course);
         System.out.println("✅ Created course: " + createdCourse.getName() + " (State: " + createdCourse.getCurrentState().getClass().getSimpleName() + ")");
 
@@ -70,10 +84,10 @@ public class Main {
         // Store quiz in QuizService
         lms.createQuiz(quiz);
 
-        // Add quiz to course
-        System.out.println("\n--- Adding quiz to course ---");
-        lms.addQuizToCourse(1001, quiz);
-        System.out.println("✅ Quiz added to course");
+        // Add quiz to lesson (new architecture)
+        System.out.println("\n--- Adding quiz to lesson ---");
+        lms.addQuizToLesson(1001, 1, 101, quiz);
+        System.out.println("✅ Quiz added to lesson");
 
         // Start quiz attempt
         System.out.println("\n--- Starting quiz attempt ---");
@@ -109,7 +123,14 @@ public class Main {
 
         // Test undo functionality
         System.out.println("\n--- Testing Command Pattern (Undo) ---");
-        System.out.println("Current course quizzes: " + createdCourse.getQuizList().size());
+        // Count quizzes across all modules and lessons
+    int totalQuizzes = 0;
+    for (Module moduleItem : createdCourse.getModuleList()) {
+        for (Lesson lessonItem : moduleItem.getLessonList()) {
+            totalQuizzes += lessonItem.getQuizList().size();
+        }
+    }
+    System.out.println("Current course quizzes: " + totalQuizzes);
 
         // Remove last quiz via undo
         // Note: This would require implementing removeQuiz method in QuizService

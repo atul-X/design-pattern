@@ -3,6 +3,7 @@ package lld.learningmanagementsystem.model;
 import lld.learningmanagementsystem.service.CourseState;
 import lld.learningmanagementsystem.service.DraftCourse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Course {
@@ -16,12 +17,8 @@ public class Course {
     private String instructor;
     private String language;
     private String status;
-    private List<Quiz> quizList;
+    private List<Module> moduleList;
     private CourseState currentState;
-
-    public void setQuizList(List<Quiz> quizList) {
-        this.quizList = quizList;
-    }
 
     public CourseState getCurrentState() {
         return currentState;
@@ -31,8 +28,8 @@ public class Course {
         this.currentState = currentState;
     }
 
-    public Course(List<Quiz> quizList) {
-        this.quizList = quizList;
+    public Course() {
+        this.moduleList = new ArrayList<>();
         this.currentState = new DraftCourse();  // all courses start as draft
     }
 
@@ -116,8 +113,28 @@ public class Course {
         this.status = status;
     }
 
-    public List<Quiz> getQuizList() {
-        return quizList;
+    public List<Module> getModuleList() {
+        return new ArrayList<>(moduleList);
+    }
+    
+    public void addModule(Module module) {
+        if (module != null && !moduleList.contains(module)) {
+            moduleList.add(module);
+            module.setCourseId(this.id);
+        }
+    }
+    
+    public void removeModule(Module module) {
+        if (moduleList.remove(module)) {
+            module.setCourseId(-1); // Reset course ID
+        }
+    }
+    
+    public Module getModule(int moduleId) {
+        return moduleList.stream()
+                .filter(module -> module.getId() == moduleId)
+                .findFirst()
+                .orElse(null);
     }
 
     public void publish() { currentState.publish(this); }

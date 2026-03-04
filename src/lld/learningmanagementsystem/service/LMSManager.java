@@ -38,6 +38,10 @@ public class LMSManager {
     public void addQuizToCourse(int courseId, Quiz quiz){
         quizService.addQuizToCourse(courseId,quiz);
     }
+    
+    public void addQuizToLesson(int courseId, int moduleId, int lessonId, Quiz quiz){
+        quizService.addQuizToLesson(courseId, moduleId, lessonId, quiz);
+    }
     public QuizAttempt startQuiz(Students students,int quizId){
         return quizService.startQuiz(students,quizId);
     }
