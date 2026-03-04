@@ -1,23 +1,21 @@
 package lld.resturantrating.restaurant.model;
 
-import lld.resturantrating.rateing.model.Rating;
-import lld.resturantrating.rateing.service.RateingObservers;
 
 import java.util.List;
 
-public class Restaurant implements RateingObservers {
+public class Restaurant  {
     private int id;
     private String name;
     private List<String> serviceablePinCode;
     private int avarageRating;
     private String food;
-    private String price;
+    private int price;
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -59,18 +57,6 @@ public class Restaurant implements RateingObservers {
 
     public void setAvarageRating(int avarageRating) {
         this.avarageRating = avarageRating;
-    }
-
-
-
-    @Override
-    public void update(List<Rating> rating) {
-        int sum=0;
-        for (Rating rate:rating){
-            sum+=rate.ratingNumber;
-        }
-        int avg=sum/rating.size();
-        setAvarageRating(avg);
     }
 
     @Override
