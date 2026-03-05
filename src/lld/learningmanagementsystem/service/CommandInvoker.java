@@ -19,4 +19,22 @@ public class CommandInvoker {
         Command command=history.pop();
         command.undo();
     }
+    
+    public void undo() {
+        if (!history.isEmpty()) {
+            undoLastCommand();
+        }
+    }
+    
+    public boolean hasUndoableActions() {
+        return !history.isEmpty();
+    }
+    
+    public int getHistorySize() {
+        return history.size();
+    }
+    
+    public void clearHistory() {
+        history.clear();
+    }
 }

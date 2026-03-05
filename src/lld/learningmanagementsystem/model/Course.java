@@ -137,6 +137,23 @@ public class Course {
                 .orElse(null);
     }
 
+    public List<Quiz> getQuizList() {
+        // Collect all quizzes from all lessons in all modules
+        List<Quiz> allQuizzes = new ArrayList<>();
+        for (Module module : moduleList) {
+            for (Lesson lesson : module.getLessonList()) {
+                allQuizzes.addAll(lesson.getQuizList());
+            }
+        }
+        return allQuizzes;
+    }
+
+    public List<Integer> getEnrolledStudents() {
+        // This would typically come from EnrollmentService
+        // For now, return empty list - this would be populated by EnrollmentService
+        return new ArrayList<>();
+    }
+
     public void publish() { currentState.publish(this); }
     public void archive() { currentState.archive(this); }
     public void addQuiz(Quiz quiz) { currentState.addQuiz(this, quiz); }

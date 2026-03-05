@@ -49,4 +49,8 @@ public class EnrollmentService {
     public List<Integer> getEnrolledStudent(int studentId){
         return studentCourseMap.get(studentId);
     }
+
+    public CommandInvoker getCommandInvoker() {
+        return invoker;
+    }
 }

@@ -61,4 +61,78 @@ public class LMSManager {
         courseService.archiveCourse(courseId);
     }
 
+    // Command pattern management methods
+    public void undoLastCourseAction() {
+        courseService.undoLastAction();
+    }
+
+    public void undoAllCourseActions() {
+        courseService.undoAllActions();
+    }
+
+    public void undoLastQuizAction() {
+        quizService.getCommandInvoker().undo();
+    }
+
+    public void undoAllQuizActions() {
+        while (quizService.getCommandInvoker().hasUndoableActions()) {
+            quizService.getCommandInvoker().undo();
+        }
+    }
+
+    public void undoLastEnrollmentAction() {
+        enrollmentService.getCommandInvoker().undo();
+    }
+
+    public void undoAllEnrollmentActions() {
+        while (enrollmentService.getCommandInvoker().hasUndoableActions()) {
+            enrollmentService.getCommandInvoker().undo();
+        }
+    }
+
+    public void undoLastSystemAction() {
+        // Try to undo from all services in reverse order of operations
+        if (enrollmentService.getCommandInvoker().hasUndoableActions()) {
+            enrollmentService.getCommandInvoker().undo();
+        } else if (quizService.getCommandInvoker().hasUndoableActions()) {
+            quizService.getCommandInvoker().undo();
+        } else if (courseService.getCommandInvoker().hasUndoableActions()) {
+            courseService.undoLastAction();
+        }
+    }
+
+    public int getTotalCommandHistorySize() {
+        return courseService.getCommandHistorySize() + 
+               quizService.getCommandInvoker().getHistorySize() + 
+               enrollmentService.getCommandInvoker().getHistorySize();
+    }
+
+    public void clearAllCommandHistory() {
+        courseService.clearCommandHistory();
+        quizService.getCommandInvoker().clearHistory();
+        enrollmentService.getCommandInvoker().clearHistory();
+    }
+
+    // Legacy methods for backward compatibility (non-undoable)
+    public void publishCourseDirect(int courseId) {
+        courseService.publishCourseDirect(courseId);
+    }
+
+    public void archiveCourseDirect(int courseId) {
+        courseService.archiveCourseDirect(courseId);
+    }
+
+    // Service getters for debugging and advanced usage
+    public CourseService getCourseService() {
+        return courseService;
+    }
+
+    public QuizService getQuizService() {
+        return quizService;
+    }
+
+    public EnrollmentService getEnrollmentService() {
+        return enrollmentService;
+    }
+
 }

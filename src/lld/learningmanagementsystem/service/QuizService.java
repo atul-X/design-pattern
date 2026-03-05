@@ -36,7 +36,19 @@ public class QuizService {
 
     public void addQuizToCourse(int courseId, Quiz quiz){
         // Legacy method - adds to first lesson of first module
-        addQuizToLesson(courseId, 1, 1, quiz); // Default to first module and first lesson
+        // For demo purposes, just store the quiz without requiring modules
+        Course course = courseService.getCourse(courseId);
+        if (course != null) {
+            // Try to add to lesson if modules exist
+            if (!course.getModuleList().isEmpty() && 
+                !course.getModuleList().get(0).getLessonList().isEmpty()) {
+                addQuizToLesson(courseId, 1, 1, quiz);
+            } else {
+                // For demo purposes, just add quiz to course directly
+                System.out.println("Note: Quiz added to course (no modules available for lesson assignment)");
+                quizMap.put(quiz.getId(), quiz);
+            }
+        }
     }
     
     public void addQuizToLesson(int courseId, int moduleId, int lessonId, Quiz quiz){
@@ -83,6 +95,10 @@ public class QuizService {
         String attemptId=studentId+"-"+quizId;
         QuizAttempt quizAttempt=attemptMap.get(attemptId);
         quizAttempt.submitQuiz();
+    }
+
+    public CommandInvoker getCommandInvoker() {
+        return commandInvoker;
     }
 
 }
