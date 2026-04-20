@@ -25,13 +25,25 @@ public class MovieSystemManagement {
 
     // --- City operations ---
     public City addCity(City city) {
-
+       // city must have at least one cinema hall registered
+        if (city.getCinemas() == null || city.getCinemas().isEmpty()) {
+            throw new IllegalArgumentException(
+                "City must have at least one cinema. Add cinemas to the city before registering it.");
+        }
         return cityManagementService.addCity(city);
     }
 
     // --- Cinema operations ---
-    public Cinema addCinema(Cinema cinema) {
-        return cinemaManagementService.addCinema(cinema);
+    // attaches cinema to city AND registers it in the cinema registry
+    public Cinema addCinema(int cityId, Cinema cinema) {
+        City city = cityManagementService.getCity(cityId);
+        if (city == null) {
+            throw new IllegalArgumentException("City not found: " + cityId + ". Add the city first.");
+        }
+        cinema.setCityId(cityId);              // link cinema → city
+        city.addCinema(cinema);                // link city → cinema
+        cinemaManagementService.addCinema(cinema);  // register in registry
+        return cinema;
     }
 
     // --- Movie operations ---
@@ -41,15 +53,25 @@ public class MovieSystemManagement {
 
     // --- Show operations ---
     public Show addShow(Show show) {
-        // validate cinema exists before indexing the show
-        if (!cinemaManagementService.exists(show.getCinemaId())) {
-            throw new IllegalArgumentException("Cinema not found: " + show.getCinemaId()
-                    + ". Register the cinema first via addCinema().");
-        }
-        // validate city exists too
-        if (cityManagementService.getCity(show.getCityId()) == null) {
+        // 1. city must exist
+        City city = cityManagementService.getCity(show.getCityId());
+        if (city == null) {
             throw new IllegalArgumentException("City not found: " + show.getCityId());
         }
+
+        // 2. cinema must exist
+        Cinema cinema = cinemaManagementService.getCinema(show.getCinemaId());
+        if (cinema == null) {
+            throw new IllegalArgumentException("Cinema not found: " + show.getCinemaId());
+        }
+
+        // 3. cinema must belong to the given city — not just exist globally
+        if (cinema.getCityId() != show.getCityId()) {
+            throw new IllegalArgumentException(
+                "Cinema " + show.getCinemaId() + " does not belong to city " + show.getCityId()
+                + ". It belongs to city " + cinema.getCityId());
+        }
+
         return showManagementService.addShow(show);
     }
 
