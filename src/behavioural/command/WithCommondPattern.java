@@ -74,6 +74,8 @@ class Button{
 	}
 }
 
+
+
 public class WithCommondPattern {
 	public static void main(String[] args) {
 		TextEditorII textEditorII=new TextEditorII();
