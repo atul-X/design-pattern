@@ -17,4 +17,7 @@ public class City {
 
     public List<Cinema> getCinemas() { return cinemas; }
     public void setCinemas(List<Cinema> cinemas) { this.cinemas = cinemas; }
+
+    // City manages its own cinema list — no external mutation
+    public void addCinema(Cinema cinema) { this.cinemas.add(cinema); }
 }
