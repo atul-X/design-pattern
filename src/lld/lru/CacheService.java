@@ -2,6 +2,10 @@ package lld.lru;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class CacheService {
     LinkListService linkListService;
@@ -47,6 +51,14 @@ public class CacheService {
     }
 
     public static void main(String[] args) {
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("abc");
+            }
+        };
+        ExecutorService executorService= Executors.newFixedThreadPool(2);
+        executorService.submit(runnable);
         CacheService cacheService=new CacheService(3);
         cacheService.put(2,3);
         cacheService.display();
