@@ -1,27 +1,8 @@
 package behavioural.memento.tnxrollback;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 public class Solution {
-	/*	{
-		"user":{
-			"name":"alice"
-		}
-		"customer":{
-			"name":"alice",
-			"age": 26
-		}
-	}*/
-
-	/*	{
-		"user":{
-			"name":"alice"
-		}
-	}*/
-
-
 	Map<String, Map<String, String>> store=new HashMap<>();
 	Stack<Map<String, Map<String, String>>> tnxStack=new Stack<>();
 

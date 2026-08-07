@@ -56,7 +56,7 @@ public class MovieBookingManager {
     }
 
     public Cinema addCinema(Cinema cinema) {
-        return systemManagement.addCinema(cinema);
+        return systemManagement.addCinema(cinema.getCityId(),cinema);
     }
 
     public Movie addMovie(Movie movie) {
